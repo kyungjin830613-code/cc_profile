@@ -22,8 +22,8 @@ describe('일주와 띠: 만세력 라이브러리와 전 날짜 대조', () => 
       const lunar = Solar.fromYmd(y, m, d).getLunar();
       const p = pillarsOf(date);
       expect(GAN_HANJA[p.gan] + ZHI_HANJA[p.zhi], date).toBe(lunar.getDayInGanZhi());
-      // 입춘 당일은 시각에 따라 달라지므로 비교에서 뺀다
-      if (!p.onLichun) expect(ZHI_ORDER[p.tti], date).toBe(lunar.getYearZhiByLiChun());
+      // 입춘 앞뒤 하루는 시각·시간대(라이브러리는 중국 표준시)에 따라 달라지므로 비교에서 뺀다
+      if (!(m === 2 && d >= 3 && d <= 5)) expect(ZHI_ORDER[p.tti], date).toBe(lunar.getYearZhiByLiChun());
       checked++;
     }
     expect(checked).toBe(43464);
