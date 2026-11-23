@@ -46,14 +46,21 @@
 | 9 | 단어·상식 하루 퀴즈 | 퀴즈 게임 | 매일 새 문제 | ⬜ (게임으로 분류되면 등급분류 필요) |
 | 10 | 전기·가스요금 계산기 | 절약 | 겨울 난방철 | ⬜ |
 
+### 정책 사전 검사 결과 (2026-11-23, 앱 만들기 창 첫 판정)
+
+- 13월의 월급: **CARNIVAL**(토스가 연말정산·절세 서비스를 직접 준비 중 → 반려 가능성 높음) → **보류**. 월급 실수령액 계산기(8번)도 같은 이유로 제외.
+- 아래 8개는 모두 **APPROVED**: 연말 돈 습관 테스트, 경조사비 장부, 무지출·52주 저축 챌린지, 더치페이 정산기, 건강 습관 도장, 점심 메뉴 룰렛, 상식·단어 퀴즈, 전기·가스요금 계산기.
+- 앞으로 새 앱은 **개발 전에 정책 사전 검사**(설명만 넣고 만들기는 누르지 않음)부터 한다.
+
 ## 5. 이미 등록·출시 관련 현황
 
 | 앱 | 폴더 | appName | 상태 |
 |---|---|---|---|
 | 찰떡 지갑궁합 | `projects/chaltteok-wallet` | chaltteok-wallet | 토스 검수 승인 → 출시하기 대기 |
 | 찰떡 신년운세 | `projects/chaltteok-newyear-2027` | chaltteok-newyear | 토스 검수 승인 → 출시하기 대기 |
-| 13월의 월급 | `projects/bonus13` | bonus13 | 콘솔 등록 진행 중 |
-| 경조사비 장부 | `projects/gyeongjo-book` | gyeongjo-book | 코드 완성, 콘솔 등록 전 |
+| 13월의 월급 | `projects/bonus13` | bonus13 | **보류**(토스 정책 CARNIVAL) |
+| 경조사비 장부 | `projects/gyeongjo-book` | gyeongjo-book | 콘솔 등록 진행 중 |
+| 나의 돈 습관 결산 | `projects/money-habit` | money-habit | 코드·로고·PRD 완성, 콘솔 등록 전 |
 | 찰떡 떡집 키우기 | `projects/chaltteok-ricecake` | chaltteok-ricecake | 사업자 업종 추가(홈택스) → 게임제작업 등록 → 등급분류 후 등록 |
 
 ## 6. 공통 규칙
