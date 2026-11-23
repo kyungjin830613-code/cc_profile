@@ -8,7 +8,8 @@
 
 $ErrorActionPreference = "Stop"
 
-$repoRawBase = "https://raw.githubusercontent.com/kyungjin830613-code/cc_profile/main"
+# NOTE: update this if the default branch changes (there is currently no "main").
+$repoRawBase = "https://raw.githubusercontent.com/kyungjin830613-code/cc_profile/claude/powershell-install-script-18mf9g"
 $profileUrl = "$repoRawBase/profile.ps1"
 
 Write-Host "Installing cc_profile..." -ForegroundColor Cyan

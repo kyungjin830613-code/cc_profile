@@ -7,8 +7,10 @@ Claude Code CLI when it's installed.
 ## Install
 
 ```powershell
-irm https://raw.githubusercontent.com/kyungjin830613-code/cc_profile/main/install.ps1 | iex
+irm https://raw.githubusercontent.com/kyungjin830613-code/cc_profile/claude/powershell-install-script-18mf9g/install.ps1 | iex
 ```
+
+> 저장소가 private이면 위 raw.githubusercontent.com 링크는 404가 됩니다. 저장소를 public으로 바꾼 뒤에만 동작합니다.
 
 This downloads [`profile.ps1`](./profile.ps1) and installs it as your current
 user's PowerShell profile (`$PROFILE`), backing up any existing profile first
