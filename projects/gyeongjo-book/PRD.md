@@ -1,6 +1,6 @@
 # 경조사비 장부 기획서 (PRD)
 
-- appName: `gyeongjo-book` / 앱 유형: 비게임
+- appName: `gyeongjo-ledger`(gyeongjo-book은 다른 사람이 이미 사용) / 앱 유형: 비게임
 - 앱 이름(10자 이내): 경조사비 장부 (7자)
 - 폴더: `projects/gyeongjo-book/app`, 로고: `assets/logo-1024.png`, `assets/logo-600.png`
 - 작성: 리야, 2026-11-23
