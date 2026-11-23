@@ -1,7 +1,7 @@
 // 토스 앱 기능을 감싼다. 토스 밖(일반 브라우저)에서는 브릿지가 없으므로 웹 대체 동작을 쓴다.
 import { File as TossFile, Share, Storage, getOperationalEnvironment } from '@apps-in-toss/web-framework';
 
-export const APP_NAME = 'money-habit';
+export const APP_NAME = 'money-habit-test';
 
 let cachedInToss: boolean | null = null;
 export function inToss(): boolean {

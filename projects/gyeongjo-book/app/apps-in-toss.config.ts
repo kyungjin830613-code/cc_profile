@@ -1,7 +1,7 @@
 import { defineConfig } from '@apps-in-toss/web-framework/config';
 
 export default defineConfig({
-  appName: 'gyeongjo-ledger',
+  appName: 'gyeongjo-memo',
   permissions: [],
   navigationBar: {
     withBackButton: true,

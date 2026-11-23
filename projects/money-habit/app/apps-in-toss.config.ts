@@ -1,7 +1,7 @@
 import { defineConfig } from '@apps-in-toss/web-framework/config';
 
 export default defineConfig({
-  appName: 'money-habit',
+  appName: 'money-habit-test',
   permissions: [],
   navigationBar: {
     withBackButton: true,
