@@ -38,7 +38,7 @@
 | 1 | 찰떡 떡집 키우기 (방치형 게임) | 게임 | 매일 수확, 출석 | ✅ 기획서·코드·로고 완성 `projects/chaltteok-ricecake` · 출시 전 등급분류·게임제작업 등록 필요 |
 | 2 | 13월의 월급 (연말정산 미리보기) | 금융·세금 | 12~2월 성수기 | ✅ 코드·로고 완성 `projects/bonus13` (appName `bonus13`) · 토스 콘솔 등록 진행 중 |
 | 3 | 경조사비 장부 (세뱃돈 계산기 대신) | 생활·기록 | 1년 내내 결혼식·장례식·돌잔치, 기록이 쌓여 재방문 | ✅ 기획서·코드·로고 완성 `projects/gyeongjo-book` (appName `gyeongjo-ledger`) |
-| 4 | 무지출 챌린지 | 절약 습관 | 매일 체크, 연속 일수 | ⬜ |
+| 4 | 무지출 챌린지 + 52주 저축 챌린지(한 앱) | 절약 습관 | 매일 도장, 매주 저축 체크 | ✅ 기획서·코드·로고 완성 `projects/no-spend` (appName `no-spend-challenge`) |
 | 5 | 더치페이 정산기 | 생활 도구 | 모임마다, 공유로 확산 | ⬜ |
 | 6 | 물 마시기·걷기 습관 도장 | 건강 습관 | 매일 기록 | ⬜ |
 | 7 | 오늘 점심 뭐 먹지 룰렛 | 재미·생활 | 매일 점심시간 | ⬜ |
@@ -60,7 +60,8 @@
 | 찰떡 신년운세 | `projects/chaltteok-newyear-2027` | chaltteok-newyear | 토스 검수 승인 → 출시하기 대기 |
 | 13월의 월급 | `projects/bonus13` | bonus13 | **보류**(토스 정책 CARNIVAL) |
 | 경조사비 장부 | `projects/gyeongjo-book` | gyeongjo-ledger | 콘솔 등록 진행 중 |
-| 나의 돈 습관 결산 | `projects/money-habit` | money-habit | 코드·로고·PRD 완성, 콘솔 등록 전 |
+| 나의 돈 습관 결산 | `projects/money-habit` | money-habit | 코드·로고·PRD 완성, 콘솔 등록 대기 |
+| 무지출 챌린지 | `projects/no-spend` | no-spend-challenge | 코드·로고·PRD 완성, 콘솔 등록 대기 |
 | 찰떡 떡집 키우기 | `projects/chaltteok-ricecake` | chaltteok-ricecake | 사업자 업종 추가(홈택스) → 게임제작업 등록 → 등급분류 후 등록 |
 
 ## 6. 공통 규칙
