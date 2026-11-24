@@ -65,7 +65,8 @@
 | N빵 정산기 | `projects/nbbang` | nbbang-jeongsan-gi | 코드·로고·PRD 완성, 콘솔 등록 대기 |
 | 물 한 잔 습관 | `projects/water-habit` | water-cup-habit | 검토 요청 직전 |
 | 오늘 점심 룰렛 | `projects/lunch-roulette` | lunch-roulette-today | 검토 요청 직전 |
-| 우리집 공과금 계산 | `projects/utility-bill` | urizip-gonggwagum | 코드·로고·PRD 완성, 콘솔 등록 대기 |
+| 우리집 공과금 계산 | `projects/utility-bill` | urizip-gonggwagum | 검토 요청 직전 |
+| 새해 소원 등불 | `projects/wish-lantern` | saehae-wish-lantern | 코드·로고·PRD 완성, 콘솔 등록 대기 |
 | 찰떡 떡집 키우기 | `projects/chaltteok-ricecake` | chaltteok-ricecake | 사업자 업종 추가(홈택스) → 게임제작업 등록 → 등급분류 후 등록 |
 
 ## 6. 공통 규칙
@@ -86,3 +87,8 @@
 - 노출 정책: https://toss.im/apps-in-toss/blog/update-26-09-23 , https://toss.im/apps-in-toss/blog/mini-app-exposure-faq
 - 광고 사업자 유예: https://toss.im/apps-in-toss/blog/update-26-08-27
 - 게임 등급분류·제작업: https://toss.im/apps-in-toss/blog/game_rating_classification , https://toss.im/apps-in-toss/blog/game-developer-registration-guide
+
+## 7. 출시 10개 목표 (2026-11-24~)
+
+1~2 지갑궁합·신년운세(승인, 약관 동의 후 출시) / 3~9 경조사비 장부·돈 습관 결산·물 한 잔 습관·오늘 점심 룰렛·무지출 도장판·N빵 정산기·우리집 공과금 계산(검토 요청 직전) / 10 새해 소원 등불(개발 완료). 다음 후보: 디데이 계산기(정책 APPROVED).
+- 사업자: 앤비드(일반과세자), 업종에 응용 소프트웨어·모바일 게임 소프트웨어 개발 및 공급업 추가 완료(11-24). 토스 콘솔 사업자 정보 등록 신청함(검토 영업일 1~2일).
