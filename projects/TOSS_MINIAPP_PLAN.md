@@ -67,7 +67,8 @@
 | 오늘 점심 룰렛 | `projects/lunch-roulette` | lunch-roulette-today | 검토 요청 직전 |
 | 우리집 공과금 계산 | `projects/utility-bill` | urizip-gonggwagum | 검토 요청 직전 |
 | 새해 소원 등불 | `projects/wish-lantern` | saehae-wish-lantern | 콘솔 등록 진행 중 |
-| 디데이 모아보기 | `projects/dday` | dday-countdown-kr | 코드·로고·PRD 완성, 콘솔 등록 대기 |
+| 디데이 모아보기 | `projects/dday` | dday-countdown-kr | 콘솔 등록 진행 중 |
+| 평수 계산기 | `projects/pyeong` | pyeongsu-calc-kr | 코드·로고·PRD 완성, 정책 사전 검사 대기 |
 | 찰떡 떡집 키우기 | `projects/chaltteok-ricecake` | chaltteok-ricecake | 사업자 업종 추가(홈택스) → 게임제작업 등록 → 등급분류 후 등록 |
 
 ## 6. 공통 규칙
