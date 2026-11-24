@@ -1,0 +1,45 @@
+:root { --bg: #f5f7fa; --ink: #1d2733; --soft: #5f6b7a; --yellow: #ffc83d; --orange: #ff7a2f; --blue: #2f6fed; --line: #dfe5ec; color-scheme: light; }
+* { box-sizing: border-box; min-width: 0; }
+html, body { margin: 0; }
+body { background: var(--bg); color: var(--ink); font: 16px/1.5 system-ui, -apple-system, 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif; }
+.app { max-width: 480px; margin: 0 auto; padding: 20px 16px calc(32px + env(safe-area-inset-bottom)); display: grid; gap: 12px; }
+.top h1 { font-size: 28px; margin: 0 0 2px; letter-spacing: -0.02em; }
+.top p { margin: 0; color: var(--soft); }
+.tabs { display: grid; grid-template-columns: 1fr 1fr; background: #e4e9f0; border-radius: 14px; padding: 4px; gap: 4px; }
+.tabs button { min-height: 46px; border: 0; border-radius: 10px; background: transparent; font: 700 16px system-ui, sans-serif; color: var(--soft); cursor: pointer; }
+.tabs button.on { background: #fff; color: var(--ink); box-shadow: 0 1px 2px #0001; }
+.card { background: #fff; border-radius: 20px; padding: 16px; display: grid; gap: 10px; }
+.label, label { font-weight: 700; font-size: 14px; margin: 2px 0 0; display: block; }
+.field { display: grid; gap: 6px; }
+.input-row { display: flex; align-items: center; gap: 8px; border: 1.5px solid var(--line); border-radius: 14px; padding: 0 14px; background: #fafbfd; }
+.input-row:focus-within { border-color: var(--blue); }
+.input-row input { flex: 1; border: 0; background: transparent; font: 700 22px system-ui, sans-serif; color: var(--ink); min-height: 54px; text-align: right; outline: none; }
+.input-row span { color: var(--soft); font-weight: 700; }
+select { min-height: 48px; border: 1.5px solid var(--line); border-radius: 12px; padding: 0 12px; font: 16px system-ui, sans-serif; background: #fafbfd; color: var(--ink); }
+.hint { margin: 0; font-size: 13px; color: var(--soft); }
+.hint.center { text-align: center; }
+.chips { display: flex; gap: 6px; }
+.chips button { flex: 1; min-height: 46px; border-radius: 12px; border: 1.5px solid var(--line); background: #fff; font: 700 15px system-ui, sans-serif; color: var(--ink); cursor: pointer; }
+.chips button.on { background: var(--ink); border-color: var(--ink); color: #fff; }
+.result { background: #fffbea; border: 2px solid var(--yellow); border-radius: 22px; padding: 18px; display: grid; justify-items: center; text-align: center; gap: 6px; }
+.result.gas { background: #fff4ec; border-color: var(--orange); }
+.result small { color: var(--soft); font-weight: 600; }
+.result strong { font-size: 38px; line-height: 1.1; letter-spacing: -0.02em; }
+.result p { margin: 0; font-size: 14px; }
+.tier { font-weight: 800; font-size: 14px; padding: 3px 12px; border-radius: 999px; background: #e8f6ea; color: #1b7a32; }
+.tier.t2 { background: #fff0c2; color: #946200; }
+.tier.t3 { background: #ffe1dd; color: #b3261e; }
+.meter { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; width: 70%; }
+.meter i { height: 8px; border-radius: 99px; background: #eee5c2; }
+.meter i.on:nth-child(1) { background: #3bb35a; }
+.meter i.on:nth-child(2) { background: #f2b134; }
+.meter i.on:nth-child(3) { background: #e5484d; }
+table { width: 100%; border-collapse: collapse; font-size: 15px; }
+th { text-align: left; font-weight: 500; color: var(--soft); padding: 6px 0; }
+td { text-align: right; font-weight: 700; font-variant-numeric: tabular-nums; }
+tr.sum th, tr.sum td { color: var(--ink); font-weight: 800; border-top: 1px solid var(--line); }
+details summary { cursor: pointer; font-weight: 700; min-height: 40px; display: flex; align-items: center; }
+.ghost { min-height: 52px; border-radius: 14px; font: 700 17px system-ui, sans-serif; cursor: pointer; background: #fff; color: var(--ink); border: 1.5px solid var(--line); }
+button:focus-visible, input:focus-visible, select:focus-visible, summary:focus-visible { outline: 3px solid #2f6fed66; outline-offset: 2px; }
+.note { margin: 0; font-size: 13px; color: var(--soft); text-align: center; min-height: 1em; }
+.foot { font-size: 12px; color: var(--soft); text-align: center; }

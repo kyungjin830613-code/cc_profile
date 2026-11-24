@@ -44,7 +44,7 @@
 | 7 | 오늘 점심 룰렛 | 재미·생활 | 매일 점심시간, 최근 먹은 메뉴 기록 | ✅ 기획서·코드·로고 완성 `projects/lunch-roulette` (appName `lunch-roulette-today`) |
 | 8 | 월급 실수령액 계산기 | 금융 계산 | 토스 사용자와 맞는 주제 | ⬜ (13월의 월급과 기능이 겹치지 않게 주의) |
 | 9 | 단어·상식 하루 퀴즈 | 퀴즈 게임 | 매일 새 문제 | ⬜ (게임으로 분류되면 등급분류 필요) |
-| 10 | 전기·가스요금 계산기 | 절약 | 겨울 난방철 | ⬜ |
+| 10 | 우리집 공과금 계산 (전기·가스요금) | 절약 | 겨울 난방철·여름 냉방철 | ✅ 기획서·코드·로고 완성 `projects/utility-bill` (appName `urizip-gonggwagum`) |
 
 ### 정책 사전 검사 결과 (2026-11-23, 앱 만들기 창 첫 판정)
 
@@ -65,6 +65,7 @@
 | N빵 정산기 | `projects/nbbang` | nbbang-jeongsan-gi | 코드·로고·PRD 완성, 콘솔 등록 대기 |
 | 물 한 잔 습관 | `projects/water-habit` | water-cup-habit | 검토 요청 직전 |
 | 오늘 점심 룰렛 | `projects/lunch-roulette` | lunch-roulette-today | 검토 요청 직전 |
+| 우리집 공과금 계산 | `projects/utility-bill` | urizip-gonggwagum | 코드·로고·PRD 완성, 콘솔 등록 대기 |
 | 찰떡 떡집 키우기 | `projects/chaltteok-ricecake` | chaltteok-ricecake | 사업자 업종 추가(홈택스) → 게임제작업 등록 → 등급분류 후 등록 |
 
 ## 6. 공통 규칙
