@@ -1,0 +1,28 @@
+/* 토스 미니앱 공통 바탕: TDS 컴포넌트가 버튼·목록·입력을 맡고, 여기서는 배치와 카드만. 색은 토스 팔레트 */
+:root { --bg: #f2f4f6; --card: #ffffff; --ink: #191f28; --sub: #8b95a1; --sub2: #4e5968; --blue: #3182f6; --blue-weak: #e8f3ff; --line: #e5e8eb; --red: #f04452; }
+* { box-sizing: border-box; }
+html, body { margin: 0; background: var(--bg); }
+body { color: var(--ink); -webkit-font-smoothing: antialiased; }
+.page { max-width: 480px; margin: 0 auto; min-height: 100vh; padding-bottom: calc(40px + env(safe-area-inset-bottom)); background: var(--bg); }
+.page.has-cta { padding-bottom: calc(110px + env(safe-area-inset-bottom)); }
+.pad { padding: 4px 20px 12px; }
+.card { margin: 0 20px 12px; background: var(--card); border-radius: 20px; padding: 18px; display: grid; gap: 10px; }
+.card h2 { margin: 0; font-size: 17px; font-weight: 700; }
+.list { list-style: none; margin: 0 0 12px; padding: 4px 0; background: var(--card); }
+.label { margin: 4px 0 0; font-size: 14px; font-weight: 600; color: var(--sub2); }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.actions { display: grid; gap: 8px; padding: 0 20px 12px; }
+.row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.empty { margin: 8px 20px; padding: 28px 16px; background: var(--card); border-radius: 20px; text-align: center; color: var(--sub); }
+.note { margin: 4px 20px; font-size: 13px; color: var(--sub); text-align: center; min-height: 1em; }
+.foot { text-align: center; font-size: 12px; color: var(--sub); margin: 16px 20px; line-height: 1.5; }
+.sheet { display: grid; gap: 12px; padding: 4px 20px 8px; }
+.error { margin: 0; color: var(--red); font-size: 14px; font-weight: 600; }
+.big-num { font-size: 40px; line-height: 1.15; font-weight: 800; letter-spacing: -0.03em; color: var(--blue); font-variant-numeric: tabular-nums; }
+.result { margin: 0 20px 12px; background: var(--card); border-radius: 20px; padding: 22px 18px; display: grid; justify-items: center; text-align: center; gap: 4px; }
+.stepper { display: inline-flex; align-items: center; gap: 8px; }
+.stepper b { min-width: 40px; text-align: center; }
+table.kv { width: 100%; border-collapse: collapse; font-size: 15px; }
+table.kv th { text-align: left; font-weight: 500; color: var(--sub2); padding: 7px 0; }
+table.kv td { text-align: right; font-weight: 700; font-variant-numeric: tabular-nums; }
+table.kv tr.sum th, table.kv tr.sum td { color: var(--ink); font-weight: 800; border-top: 1px solid var(--line); }
