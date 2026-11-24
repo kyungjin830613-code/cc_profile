@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
+import { Button, ListHeader, Paragraph, ProgressBar, SegmentedControl, Switch } from '@toss/tds-mobile';
 import {
   WEEKS,
   bestStreak,
@@ -97,42 +98,43 @@ export default function App() {
   };
 
   return (
-    <main className="app">
-      <header className="top">
+    <div className="page">
+      <div className="head">
         <h1>무지출 도장판</h1>
-        <p>돈 안 쓴 날엔 도장 쾅! 매주 조금씩 모으는 52주 저축까지.</p>
-      </header>
+        <Paragraph.Text typography="t6" color="var(--sub)">
+          돈 안 쓴 날엔 도장 쾅! 52주 저축까지 함께해요
+        </Paragraph.Text>
+      </div>
 
-      <nav className="tabs" role="tablist">
-        <button role="tab" aria-selected={tab === 'nospend'} className={tab === 'nospend' ? 'on' : ''} type="button" onClick={() => setTab('nospend')}>
-          무지출 달력
-        </button>
-        <button role="tab" aria-selected={tab === 'weekly'} className={tab === 'weekly' ? 'on' : ''} type="button" onClick={() => setTab('weekly')}>
-          52주 저축
-        </button>
-      </nav>
+      <div className="pad">
+        <SegmentedControl value={tab} onChange={(v: string) => setTab(v as Tab)}>
+          <SegmentedControl.Item value="nospend">무지출 달력</SegmentedControl.Item>
+          <SegmentedControl.Item value="weekly">52주 저축</SegmentedControl.Item>
+        </SegmentedControl>
+      </div>
 
       {tab === 'nospend' && (
         <>
           <section className="hero">
-            <div className="streak">
-              <span className="fire" aria-hidden>
-                {streak >= 3 ? '🔥' : '🌱'}
-              </span>
-              <b>{streak}일</b>
-              <small>연속 무지출</small>
-            </div>
-            <div className="mini">
-              <p>
-                최장 기록 <b>{best}일</b>
-              </p>
-              <p>{badge ? `다음 배지까지 ${badge - streak}일` : '모든 배지 달성! 🏆'}</p>
+            <span className="hero-emoji" aria-hidden>
+              {streak >= 3 ? '🔥' : '🌱'}
+            </span>
+            <div className="hero-text">
+              <Paragraph.Text typography="t6" color="var(--sub2)">
+                연속 무지출
+              </Paragraph.Text>
+              <strong className="big-num">{streak}일</strong>
+              <Paragraph.Text typography="t7" color="var(--sub)">
+                {`최장 ${best}일 · ${badge ? `다음 배지까지 ${badge - streak}일` : '모든 배지 달성 🏆'}`}
+              </Paragraph.Text>
             </div>
           </section>
 
-          <button className={`stamp ${stampedToday ? 'done' : ''}`} type="button" onClick={stampToday}>
-            {stampedToday ? '✅ 오늘은 무지출! (다시 누르면 취소)' : '오늘 돈 안 썼어요 → 도장 찍기'}
-          </button>
+          <div className="actions">
+            <Button display="block" size="xlarge" variant={stampedToday ? 'weak' : 'fill'} onClick={stampToday}>
+              {stampedToday ? '오늘은 무지출 ✅ (다시 누르면 취소)' : '오늘 돈 안 썼어요, 도장 찍기'}
+            </Button>
+          </div>
 
           <section className="card">
             <div className="goal">
@@ -140,28 +142,26 @@ export default function App() {
                 이번 달 목표 <b>{monthCount}</b> / {data.monthlyGoal}일
               </span>
               <span className="stepper">
-                <button type="button" aria-label="목표 하루 줄이기" onClick={() => setData((d) => ({ ...d, monthlyGoal: Math.max(1, d.monthlyGoal - 1) }))}>
+                <Button size="small" variant="weak" color="dark" aria-label="목표 하루 줄이기" onClick={() => setData((d) => ({ ...d, monthlyGoal: Math.max(1, d.monthlyGoal - 1) }))}>
                   −
-                </button>
-                <button type="button" aria-label="목표 하루 늘리기" onClick={() => setData((d) => ({ ...d, monthlyGoal: Math.min(31, d.monthlyGoal + 1) }))}>
+                </Button>
+                <Button size="small" variant="weak" color="dark" aria-label="목표 하루 늘리기" onClick={() => setData((d) => ({ ...d, monthlyGoal: Math.min(31, d.monthlyGoal + 1) }))}>
                   +
-                </button>
+                </Button>
               </span>
             </div>
-            <div className="bar">
-              <i style={{ width: `${Math.min(100, (monthCount / data.monthlyGoal) * 100)}%` }} />
-            </div>
+            <ProgressBar progress={Math.min(1, monthCount / data.monthlyGoal)} size="bold" animate />
           </section>
 
           <section className="card">
             <div className="cal-head">
-              <button type="button" aria-label="이전 달" onClick={() => moveMonth(-1)}>
+              <button type="button" className="nav" aria-label="이전 달" onClick={() => moveMonth(-1)}>
                 ‹
               </button>
               <b>
                 {view.y}년 {view.m}월
               </b>
-              <button type="button" aria-label="다음 달" onClick={() => moveMonth(1)} disabled={isThisMonth}>
+              <button type="button" className="nav" aria-label="다음 달" onClick={() => moveMonth(1)} disabled={isThisMonth}>
                 ›
               </button>
             </div>
@@ -190,60 +190,79 @@ export default function App() {
                 ),
               )}
             </div>
-            <p className="note">지난날도 눌러서 도장을 찍거나 지울 수 있어요.</p>
+            <Paragraph.Text typography="t7" color="var(--sub)">
+              지난날도 눌러서 도장을 찍거나 지울 수 있어요.
+            </Paragraph.Text>
           </section>
         </>
       )}
 
       {tab === 'weekly' && !w && (
-        <section className="card setup">
-          <h2>52주 저축 챌린지</h2>
-          <p>1주 차엔 1천 원, 2주 차엔 2천 원… 매주 조금씩 늘려 넣으면 1년 뒤 목돈이 돼요.</p>
-          <p className="label">한 주에 늘릴 금액</p>
-          <div className="chips">
-            {[1000, 5000, 10000].map((b) => (
-              <button key={b} type="button" className={base === b ? 'on' : ''} onClick={() => setBase(b)}>
-                {won(b)}
-              </button>
-            ))}
+        <>
+          <ListHeader title={<ListHeader.TitleParagraph typography="t5" fontWeight="bold">52주 저축 챌린지</ListHeader.TitleParagraph>} />
+          <section className="card">
+            <Paragraph.Text typography="t6" color="var(--sub2)">
+              1주 차엔 1천 원, 2주 차엔 2천 원… 매주 조금씩 늘려 넣으면 1년 뒤 목돈이 돼요.
+            </Paragraph.Text>
+            <p className="label">한 주에 늘릴 금액</p>
+            <div className="chips">
+              {[1000, 5000, 10000].map((b) => (
+                <Button key={b} size="medium" variant={base === b ? 'fill' : 'weak'} color={base === b ? 'primary' : 'dark'} onClick={() => setBase(b)}>
+                  {won(b)}
+                </Button>
+              ))}
+            </div>
+            <div className="setrow">
+              <span>거꾸로 하기 (처음에 크게)</span>
+              <Switch checked={reverse} onChange={() => setReverse((r) => !r)} aria-label="거꾸로 하기" />
+            </div>
+            <table className="kv">
+              <tbody>
+                <tr>
+                  <th>1주 차</th>
+                  <td>{won(weekAmount(base, 1, reverse))}</td>
+                </tr>
+                <tr>
+                  <th>52주 차</th>
+                  <td>{won(weekAmount(base, 52, reverse))}</td>
+                </tr>
+                <tr className="sum">
+                  <th>1년 뒤 모이는 돈</th>
+                  <td>{won(goalTotal(base))}</td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+          <div className="actions">
+            <Button display="block" size="large" onClick={() => setData((d) => ({ ...d, weekly: { base, reverse, start: today, done: [] } }))}>
+              오늘부터 시작하기
+            </Button>
           </div>
-          <label className="check">
-            <input type="checkbox" checked={reverse} onChange={(e) => setReverse(e.target.checked)} />
-            <span>거꾸로 하기(처음에 크게, 연말엔 가볍게)</span>
-          </label>
-          <div className="preview">
-            1주 차 {won(weekAmount(base, 1, reverse))} → 52주 차 {won(weekAmount(base, 52, reverse))}
-            <b>1년 뒤 {won(goalTotal(base))}</b>
-          </div>
-          <button className="primary" type="button" onClick={() => setData((d) => ({ ...d, weekly: { base, reverse, start: today, done: [] } }))}>
-            오늘부터 시작하기
-          </button>
           <p className="note">실제 돈은 내 통장이나 저금통에 직접 넣고, 여기서는 기록만 해요.</p>
-        </section>
+        </>
       )}
 
       {tab === 'weekly' && w && (
         <>
-          <section className="hero pig">
-            <div className="streak">
-              <span className="fire" aria-hidden>
-                🐷
-              </span>
-              <b>{won(wSaved)}</b>
-              <small>지금까지 모은 돈</small>
-            </div>
-            <div className="mini">
-              <p>
-                목표 <b>{won(wGoal)}</b>
-              </p>
-              <p>{Math.floor((wSaved / wGoal) * 100)}% 달성</p>
+          <section className="hero">
+            <span className="hero-emoji" aria-hidden>
+              🐷
+            </span>
+            <div className="hero-text">
+              <Paragraph.Text typography="t6" color="var(--sub2)">
+                지금까지 모은 돈
+              </Paragraph.Text>
+              <strong className="big-num">{won(wSaved)}</strong>
+              <Paragraph.Text typography="t7" color="var(--sub)">{`목표 ${won(wGoal)} · ${Math.floor((wSaved / wGoal) * 100)}% 달성`}</Paragraph.Text>
             </div>
           </section>
-          <button className={`stamp pink ${wDone.has(wNow) ? 'done' : ''}`} type="button" onClick={() => toggleWeek(wNow)}>
-            {wDone.has(wNow) ? `✅ ${wNow}주 차 ${won(weekAmount(w.base, wNow, w.reverse))} 넣었어요` : `${wNow}주 차: ${won(weekAmount(w.base, wNow, w.reverse))} 넣고 체크하기`}
-          </button>
+          <div className="actions">
+            <Button display="block" size="xlarge" variant={wDone.has(wNow) ? 'weak' : 'fill'} onClick={() => toggleWeek(wNow)}>
+              {wDone.has(wNow) ? `${wNow}주 차 ${won(weekAmount(w.base, wNow, w.reverse))} 넣었어요 ✅` : `${wNow}주 차 ${won(weekAmount(w.base, wNow, w.reverse))} 넣고 체크`}
+            </Button>
+          </div>
+          <ListHeader title={<ListHeader.TitleParagraph typography="t5" fontWeight="bold">52주 도장판</ListHeader.TitleParagraph>} />
           <section className="card">
-            <h2>52주 도장판</h2>
             <div className="weeks">
               {Array.from({ length: WEEKS }, (_, i) => i + 1).map((n) => (
                 <button key={n} type="button" className={`wk${wDone.has(n) ? ' on' : ''}${n === wNow ? ' now' : ''}`} disabled={n > wNow} aria-pressed={wDone.has(n)} aria-label={`${n}주 차 ${won(weekAmount(w.base, n, w.reverse))}`} onClick={() => toggleWeek(n)}>
@@ -251,41 +270,52 @@ export default function App() {
                 </button>
               ))}
             </div>
-            <p className="note">밀린 주도 눌러서 채울 수 있어요. 시작일: {w.start}</p>
+            <Paragraph.Text typography="t7" color="var(--sub)">{`밀린 주도 눌러서 채울 수 있어요. 시작일 ${w.start}`}</Paragraph.Text>
           </section>
-          {!confirmReset ? (
-            <button className="link" type="button" onClick={() => setConfirmReset(true)}>
-              처음부터 다시 하기
-            </button>
-          ) : (
-            <div className="row">
-              <button className="danger" type="button" onClick={() => { setData((d) => ({ ...d, weekly: null })); setConfirmReset(false); }}>
-                기록 지우고 다시
-              </button>
-              <button className="ghost" type="button" onClick={() => setConfirmReset(false)}>
-                취소
-              </button>
-            </div>
-          )}
+          <div className="actions">
+            {!confirmReset ? (
+              <Button display="block" size="medium" variant="weak" color="dark" onClick={() => setConfirmReset(true)}>
+                처음부터 다시 하기
+              </Button>
+            ) : (
+              <div className="row2">
+                <Button
+                  display="block"
+                  color="danger"
+                  onClick={() => {
+                    setData((d) => ({ ...d, weekly: null }));
+                    setConfirmReset(false);
+                  }}
+                >
+                  기록 지우고 다시
+                </Button>
+                <Button display="block" variant="weak" color="dark" onClick={() => setConfirmReset(false)}>
+                  취소
+                </Button>
+              </div>
+            )}
+          </div>
         </>
       )}
 
       {(tab === 'nospend' || w) && (
-        <button className="ghost" type="button" onClick={share}>
-          친구에게 자랑하기
-        </button>
+        <div className="actions">
+          <Button display="block" variant="weak" onClick={share}>
+            친구에게 자랑하기
+          </Button>
+        </div>
       )}
       <p className="note" role="status">
         {status}
       </p>
 
-      <footer className="foot">기록은 이 기기에만 저장되고 서버로 보내지 않아요. 실제 돈은 움직이지 않는 습관 기록장이에요.{!inToss() && ' 지금은 토스 밖 미리보기 화면이에요.'}</footer>
+      <p className="foot">기록은 이 기기에만 저장되고 서버로 보내지 않아요. 실제 돈은 움직이지 않는 습관 기록장이에요.{!inToss() && ' 지금은 토스 밖 미리보기 화면이에요.'}</p>
 
       {celebrate && (
         <div className="toast" role="status" onAnimationEnd={() => setCelebrate('')}>
           {celebrate}
         </div>
       )}
-    </main>
+    </div>
   );
 }
