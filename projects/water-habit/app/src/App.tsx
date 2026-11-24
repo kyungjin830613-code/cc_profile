@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
+import { BottomSheet, Button, ListHeader, ListRow, Paragraph, Switch } from '@toss/tds-mobile';
 import { CHECKS, CUP_SIZES, addCup, dayLog, dayOf, emptyData, goalStreak, lastWeek, ml, restore, toggleCheck, weekAverage, type CheckId, type Data } from './lib/water';
-import { appLink, inToss, loadItem, saveItem, shareText } from './lib/toss';
+import { appLink, loadItem, saveItem, shareText } from './lib/toss';
 
 const STORE_KEY = 'water.v1';
 const WD = ['일', '월', '화', '수', '목', '금', '토'];
@@ -64,57 +65,18 @@ export default function App() {
   };
 
   return (
-    <main className="app">
-      <header className="top">
+    <div className="page">
+      <div className="head">
         <div>
           <h1>물 한 잔 습관</h1>
-          <p>
-            {streak > 0 ? `목표 달성 ${streak}일 연속 🔥` : '오늘도 한 잔부터 시작해요'} · 최근 7일 평균 {avg}잔
-          </p>
+          <Paragraph.Text typography="t6" color="var(--sub)">
+            {`${streak > 0 ? `목표 달성 ${streak}일 연속 🔥` : '오늘도 한 잔부터 시작해요'} · 7일 평균 ${avg}잔`}
+          </Paragraph.Text>
         </div>
-        <button className="icon" type="button" aria-label="설정" aria-expanded={settings} onClick={() => setSettings((s) => !s)}>
-          ⚙️
-        </button>
-      </header>
-
-      {settings && (
-        <section className="card">
-          <div className="row-between">
-            <span>하루 목표</span>
-            <span className="stepper">
-              <button type="button" aria-label="목표 한 잔 줄이기" onClick={() => setData((d) => ({ ...d, goal: Math.max(1, d.goal - 1) }))}>
-                −
-              </button>
-              <b>{data.goal}잔</b>
-              <button type="button" aria-label="목표 한 잔 늘리기" onClick={() => setData((d) => ({ ...d, goal: Math.min(20, d.goal + 1) }))}>
-                +
-              </button>
-            </span>
-          </div>
-          <p className="label">한 컵 용량</p>
-          <div className="chips wrap">
-            {CUP_SIZES.map((s) => (
-              <button key={s} type="button" className={data.cupMl === s ? 'on' : ''} onClick={() => setData((d) => ({ ...d, cupMl: s }))}>
-                {s}ml
-              </button>
-            ))}
-          </div>
-          <p className="label">같이 챙길 건강 습관</p>
-          <div className="chips wrap">
-            {CHECKS.map((c) => (
-              <button
-                key={c.id}
-                type="button"
-                aria-pressed={data.enabled.includes(c.id)}
-                className={data.enabled.includes(c.id) ? 'on' : ''}
-                onClick={() => setData((d) => ({ ...d, enabled: d.enabled.includes(c.id) ? d.enabled.filter((x) => x !== c.id) : [...d.enabled, c.id] }))}
-              >
-                {c.emoji} {c.label}
-              </button>
-            ))}
-          </div>
-        </section>
-      )}
+        <Button size="small" variant="weak" color="dark" onClick={() => setSettings(true)}>
+          설정
+        </Button>
+      </div>
 
       <section className="hero">
         <Glass level={log.cups / data.goal} />
@@ -123,35 +85,41 @@ export default function App() {
             {log.cups}
             <small>/{data.goal}잔</small>
           </strong>
-          <span>{ml(log.cups, data.cupMl)}</span>
+          <Paragraph.Text typography="t6" color="var(--sub2)">
+            {ml(log.cups, data.cupMl)}
+          </Paragraph.Text>
+          <div className="drink">
+            <Button display="block" size="large" onClick={drink}>
+              한 잔 마셨어요
+            </Button>
+            <Button display="block" size="small" variant="weak" color="dark" onClick={() => setData((d) => addCup(d, today, -1))} disabled={log.cups === 0}>
+              한 잔 취소
+            </Button>
+          </div>
         </div>
-        <button className="drink" type="button" onClick={drink}>
-          💧 한 잔 마셨어요
-        </button>
-        <button className="undo" type="button" onClick={() => setData((d) => addCup(d, today, -1))} disabled={log.cups === 0}>
-          한 잔 취소
-        </button>
       </section>
 
       {data.enabled.length > 0 && (
-        <section className="card">
-          <h2>오늘의 건강 체크</h2>
-          <div className="checks">
+        <>
+          <ListHeader title={<ListHeader.TitleParagraph typography="t5" fontWeight="bold">오늘의 건강 체크</ListHeader.TitleParagraph>} />
+          <ul className="list">
             {CHECKS.filter((c) => data.enabled.includes(c.id)).map((c) => {
               const on = log.checks.includes(c.id as CheckId);
               return (
-                <button key={c.id} type="button" className={on ? 'on' : ''} aria-pressed={on} onClick={() => setData((d) => toggleCheck(d, today, c.id))}>
-                  <span aria-hidden>{on ? '✅' : c.emoji}</span>
-                  {c.label}
-                </button>
+                <ListRow
+                  key={c.id}
+                  left={<span className="row-emoji">{c.emoji}</span>}
+                  contents={<ListRow.Texts type="1RowTypeA" top={c.label} />}
+                  right={<Switch checked={on} onChange={() => setData((d) => toggleCheck(d, today, c.id))} aria-label={c.label} />}
+                />
               );
             })}
-          </div>
-        </section>
+          </ul>
+        </>
       )}
 
-      <section className="card">
-        <h2>최근 7일</h2>
+      <ListHeader title={<ListHeader.TitleParagraph typography="t5" fontWeight="bold">최근 7일</ListHeader.TitleParagraph>} />
+      <div className="card">
         <div className="bars" role="img" aria-label={`최근 7일 물 마신 잔 수: ${week.map((w) => w.cups).join(', ')}, 목표 ${data.goal}잔`} style={{ ['--goal' as string]: `${(data.goal / maxBar) * 100}%` }}>
           {week.map((w) => {
             const [y, m, d] = w.day.split('-').map(Number);
@@ -166,22 +134,60 @@ export default function App() {
             );
           })}
         </div>
-        <p className="note">점선은 하루 목표({data.goal}잔)예요.</p>
-      </section>
+        <Paragraph.Text typography="t7" color="var(--sub)">{`점선은 하루 목표(${data.goal}잔)예요.`}</Paragraph.Text>
+      </div>
 
-      <button className="ghost" type="button" onClick={share}>
-        친구에게 자랑하기
-      </button>
+      <div className="actions">
+        <Button display="block" variant="weak" onClick={share}>
+          친구에게 자랑하기
+        </Button>
+      </div>
       <p className="note" role="status">
         {status}
       </p>
-      <footer className="foot">생활 습관 기록용이에요. 건강 상태에 따라 필요한 물의 양은 다르니 의료 조언이 필요하면 전문가와 상담하세요. 기록은 이 기기에만 저장돼요.{!inToss() && ' 지금은 토스 밖 미리보기 화면이에요.'}</footer>
+      <p className="foot">생활 습관 기록용이에요. 필요한 물의 양은 건강 상태에 따라 다르니 의료 조언이 필요하면 전문가와 상담하세요. 기록은 이 기기에만 저장돼요.</p>
+
+      <BottomSheet open={settings} onClose={() => setSettings(false)} header={<BottomSheet.Header>설정</BottomSheet.Header>} cta={<BottomSheet.CTA onClick={() => setSettings(false)}>완료</BottomSheet.CTA>}>
+        <div className="sheet">
+          <div className="setrow">
+            <span>하루 목표</span>
+            <span className="stepper">
+              <Button size="small" variant="weak" color="dark" aria-label="목표 한 잔 줄이기" onClick={() => setData((d) => ({ ...d, goal: Math.max(1, d.goal - 1) }))}>
+                −
+              </Button>
+              <b>{data.goal}잔</b>
+              <Button size="small" variant="weak" color="dark" aria-label="목표 한 잔 늘리기" onClick={() => setData((d) => ({ ...d, goal: Math.min(20, d.goal + 1) }))}>
+                +
+              </Button>
+            </span>
+          </div>
+          <p className="label">한 컵 용량</p>
+          <div className="chips">
+            {CUP_SIZES.map((s) => (
+              <Button key={s} size="small" variant={data.cupMl === s ? 'fill' : 'weak'} color={data.cupMl === s ? 'primary' : 'dark'} onClick={() => setData((d) => ({ ...d, cupMl: s }))}>
+                {`${s}ml`}
+              </Button>
+            ))}
+          </div>
+          <p className="label">같이 챙길 건강 습관</p>
+          <div className="chips">
+            {CHECKS.map((c) => {
+              const on = data.enabled.includes(c.id);
+              return (
+                <Button key={c.id} size="small" variant={on ? 'fill' : 'weak'} color={on ? 'primary' : 'dark'} onClick={() => setData((d) => ({ ...d, enabled: on ? d.enabled.filter((x) => x !== c.id) : [...d.enabled, c.id] }))}>
+                  {`${c.emoji} ${c.label}`}
+                </Button>
+              );
+            })}
+          </div>
+        </div>
+      </BottomSheet>
 
       {toast && (
         <div key={toast + log.cups} className="toast" role="status" onAnimationEnd={() => setToast('')}>
           {toast}
         </div>
       )}
-    </main>
+    </div>
   );
 }
