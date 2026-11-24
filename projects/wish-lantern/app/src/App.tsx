@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { BottomCTA, BottomSheet, Button, ListHeader, ListRow, Paragraph, TextArea } from '@toss/tds-mobile';
 import { MAX_TEXT, MAX_WISHES, TOPICS, addWish, checkIn, checkedToday, dayOf, daysToNewYear, glow, makeWish, restore, streak, type Topic, type Wish } from './lib/wish';
 import { appLink, inToss, loadItem, saveImage, saveItem, shareText } from './lib/toss';
 
@@ -130,15 +131,22 @@ export default function App() {
   };
 
   return (
-    <main className="app">
-      <header className="top">
-        <p className="dday">{dday === 0 ? '🎉 새해 복 많이 받으세요!' : `${Number(today.slice(0, 4)) + (today.slice(5) === '01-01' ? 0 : 1)}년까지 D-${dday}`}</p>
+    <div className="page has-cta">
+      <div className="head">
+        <span className="dday">{dday === 0 ? '🎉 새해 복 많이 받으세요!' : `${Number(today.slice(0, 4)) + (today.slice(5) === '01-01' ? 0 : 1)}년까지 D-${dday}`}</span>
         <h1>새해 소원 등불</h1>
-        <p>소원을 적어 밤하늘에 띄우고, 매일 한 번 다짐을 확인해요.</p>
-      </header>
+        <Paragraph.Text typography="t6" color="var(--sub)">
+          소원을 밤하늘에 띄우고, 매일 한 번 다짐을 확인해요
+        </Paragraph.Text>
+      </div>
 
       <section className="sky" aria-label={`띄운 등불 ${wishes.length}개`}>
-        {wishes.length === 0 && <p className="empty">아직 띄운 등불이 없어요.<br />첫 소원을 적어 볼까요?</p>}
+        {wishes.length === 0 && (
+          <p className="sky-empty">
+            아직 띄운 등불이 없어요.
+            <br />첫 소원을 적어 볼까요?
+          </p>
+        )}
         {wishes.map((w, i) => {
           const b = glow(w, today);
           return (
@@ -146,7 +154,11 @@ export default function App() {
               key={w.id}
               type="button"
               className={`lantern ${rising === w.id ? 'rise' : ''}`}
-              style={{ left: `${8 + ((i * 29) % 78)}%`, top: `${12 + ((i * 41) % 52)}%`, animationDelay: `${i * 0.7}s` }}
+              style={{
+                left: `${8 + ((i * 29) % 78)}%`,
+                top: `${12 + ((i * 41) % 52)}%`,
+                animationDelay: `${i * 0.7}s`,
+              }}
               aria-label={`${w.text}, ${streak(w, today)}일 연속 다짐`}
               onClick={() => setOpen(w.id)}
             >
@@ -158,54 +170,38 @@ export default function App() {
       </section>
 
       {wishes.length > 0 && (
-        <section className="card">
-          <h2>오늘의 다짐 {pending ? `(${pending}개 남음)` : '완료 ✅'}</h2>
+        <>
+          <ListHeader title={<ListHeader.TitleParagraph typography="t5" fontWeight="bold">{`오늘의 다짐 ${pending ? `· ${pending}개 남음` : '· 완료 ✅'}`}</ListHeader.TitleParagraph>} />
           <ul className="list">
             {wishes.map((w) => {
               const done = checkedToday(w, today);
               return (
-                <li key={w.id}>
-                  <button type="button" className="text" onClick={() => setOpen(w.id)}>
-                    <span aria-hidden>{TOPICS[w.topic].emoji}</span> {w.text}
-                    <small>{streak(w, today)}일 연속</small>
-                  </button>
-                  <button type="button" className={`check ${done ? 'done' : ''}`} disabled={done} onClick={() => setWishes((l) => l.map((x) => (x.id === w.id ? checkIn(x, today) : x)))}>
-                    {done ? '다짐 완료' : '오늘도 다짐'}
-                  </button>
-                </li>
+                <ListRow
+                  key={w.id}
+                  left={<span className="row-emoji">{TOPICS[w.topic].emoji}</span>}
+                  contents={
+                    <button type="button" className="row-open" onClick={() => setOpen(w.id)}>
+                      <ListRow.Texts type="2RowTypeA" top={w.text} bottom={`${streak(w, today)}일 연속 다짐`} />
+                    </button>
+                  }
+                  right={
+                    <Button
+                      size="small"
+                      variant={done ? 'weak' : 'fill'}
+                      color={done ? 'dark' : 'primary'}
+                      disabled={done}
+                      onClick={() => {
+                        setWishes((l) => l.map((x) => (x.id === w.id ? checkIn(x, today) : x)));
+                      }}
+                    >
+                      {done ? '다짐 완료' : '오늘도 다짐'}
+                    </Button>
+                  }
+                />
               );
             })}
           </ul>
-        </section>
-      )}
-
-      {!writing ? (
-        <button className="primary" type="button" onClick={() => setWriting(true)} disabled={wishes.length >= MAX_WISHES}>
-          {wishes.length >= MAX_WISHES ? `소원은 ${MAX_WISHES}개까지예요` : '🏮 새 소원 적기'}
-        </button>
-      ) : (
-        <section className="card write">
-          <label htmlFor="wish">2027년 나의 소원</label>
-          <textarea id="wish" maxLength={MAX_TEXT} value={text} onChange={(e) => setText(e.target.value)} placeholder="예: 매주 세 번 운동하기" rows={2} />
-          <small className="count">
-            {text.length}/{MAX_TEXT}
-          </small>
-          <div className="chips">
-            {TOPIC_IDS.map((t) => (
-              <button key={t} type="button" className={topic === t ? 'on' : ''} style={topic === t ? { background: TOPICS[t].color, borderColor: TOPICS[t].color } : undefined} onClick={() => setTopic(t)}>
-                {TOPICS[t].emoji} {TOPICS[t].label}
-              </button>
-            ))}
-          </div>
-          <div className="row">
-            <button className="primary" type="button" onClick={release}>
-              등불 띄우기
-            </button>
-            <button className="ghost" type="button" onClick={() => setWriting(false)}>
-              취소
-            </button>
-          </div>
-        </section>
+        </>
       )}
 
       <p className="note" role="status">
@@ -213,37 +209,77 @@ export default function App() {
       </p>
       {image && <img className="shot" src={image} alt="소원 등불 카드" />}
 
-      <footer className="foot">소원과 다짐은 이 기기에만 저장되고 서버로 보내지 않아요.{!inToss() && ' 지금은 토스 밖 미리보기 화면이에요.'}</footer>
+      <p className="foot">
+        소원과 다짐은 이 기기에만 저장되고 서버로 보내지 않아요.
+        {!inToss() && ' 지금은 토스 밖 미리보기 화면이에요.'}
+      </p>
 
-      {sel && (
-        <div className="modal" role="dialog" aria-modal="true" aria-labelledby="sel-title" onClick={() => setOpen(null)}>
-          <div className="sheet" onClick={(e) => e.stopPropagation()}>
-            <img src={uri(lanternSvg(TOPICS[sel.topic].color, glow(sel, today)))} alt="" width={90} height={117} />
-            <h2 id="sel-title">{sel.text}</h2>
-            <p>
-              {TOPICS[sel.topic].emoji} {TOPICS[sel.topic].label} · {sel.created} 띄움 · 다짐 {sel.checks.length}일 · {streak(sel, today)}일 연속
-            </p>
-            <div className="row">
-              <button className="primary" type="button" onClick={() => share(sel)}>
-                친구에게 공유
-              </button>
-              <button className="ghost" type="button" onClick={() => save(sel)}>
-                카드 저장
-              </button>
+      <BottomCTA onClick={() => setWriting(true)} disabled={wishes.length >= MAX_WISHES}>
+        {wishes.length >= MAX_WISHES ? `소원은 ${MAX_WISHES}개까지예요` : '새 소원 적기'}
+      </BottomCTA>
+
+      <BottomSheet
+        open={writing}
+        onClose={() => setWriting(false)}
+        header={<BottomSheet.Header>2027년 나의 소원</BottomSheet.Header>}
+        cta={<BottomSheet.CTA onClick={release}>등불 띄우기</BottomSheet.CTA>}
+      >
+        <div className="sheet">
+          <div className="tf">
+            <TextArea
+              variant="box"
+              placeholder="예: 매주 세 번 운동하기"
+              maxLength={MAX_TEXT}
+              value={text}
+              onChange={(e) => setText(e.target.value)}
+              minHeight={88}
+              help={`${text.length}/${MAX_TEXT}`}
+            />
+          </div>
+          <p className="label">어떤 소원이에요?</p>
+          <div className="chips">
+            {TOPIC_IDS.map((t) => (
+              <Button key={t} size="small" variant={topic === t ? 'fill' : 'weak'} color={topic === t ? 'primary' : 'dark'} onClick={() => setTopic(t)}>
+                {`${TOPICS[t].emoji} ${TOPICS[t].label}`}
+              </Button>
+            ))}
+          </div>
+        </div>
+      </BottomSheet>
+
+      <BottomSheet open={!!sel} onClose={() => setOpen(null)} header={<BottomSheet.Header>{sel?.text ?? ''}</BottomSheet.Header>}>
+        {sel && (
+          <div className="sheet detail">
+            <div className="mini-sky">
+              <img src={uri(lanternSvg(TOPICS[sel.topic].color, glow(sel, today)))} alt="" width={90} height={117} />
             </div>
-            <button
-              className="link"
-              type="button"
+            <Paragraph.Text
+              typography="t6"
+              color="var(--sub2)"
+            >{`${TOPICS[sel.topic].emoji} ${TOPICS[sel.topic].label} · ${sel.created} 띄움 · 다짐 ${sel.checks.length}일 · ${streak(sel, today)}일 연속`}</Paragraph.Text>
+            <div className="row2">
+              <Button display="block" onClick={() => share(sel)}>
+                공유하기
+              </Button>
+              <Button display="block" variant="weak" onClick={() => save(sel)}>
+                카드 저장
+              </Button>
+            </div>
+            <Button
+              display="block"
+              size="medium"
+              variant="weak"
+              color="dark"
               onClick={() => {
                 setWishes((l) => l.filter((x) => x.id !== sel.id));
                 setOpen(null);
               }}
             >
-              이 소원 내려놓기(지우기)
-            </button>
+              이 소원 내려놓기 (지우기)
+            </Button>
           </div>
-        </div>
-      )}
-    </main>
+        )}
+      </BottomSheet>
+    </div>
   );
 }
