@@ -39,7 +39,7 @@
 | 2 | 13월의 월급 (연말정산 미리보기) | 금융·세금 | 12~2월 성수기 | ✅ 코드·로고 완성 `projects/bonus13` (appName `bonus13`) · 토스 콘솔 등록 진행 중 |
 | 3 | 경조사비 장부 (세뱃돈 계산기 대신) | 생활·기록 | 1년 내내 결혼식·장례식·돌잔치, 기록이 쌓여 재방문 | ✅ 기획서·코드·로고 완성 `projects/gyeongjo-book` (appName `gyeongjo-memo`) |
 | 4 | 무지출 챌린지 + 52주 저축 챌린지(한 앱) | 절약 습관 | 매일 도장, 매주 저축 체크 | ✅ 기획서·코드·로고 완성 `projects/no-spend` (appName `no-spend-challenge`) |
-| 5 | 더치페이 정산기 | 생활 도구 | 모임마다, 공유로 확산 | ⬜ |
+| 5 | N빵 정산기 (더치페이) | 생활 도구 | 모임마다, 정산 문구 공유로 확산 | ✅ 기획서·코드·로고 완성 `projects/nbbang` (appName `nbbang-calc`) |
 | 6 | 물 마시기·걷기 습관 도장 | 건강 습관 | 매일 기록 | ⬜ |
 | 7 | 오늘 점심 뭐 먹지 룰렛 | 재미·생활 | 매일 점심시간 | ⬜ |
 | 8 | 월급 실수령액 계산기 | 금융 계산 | 토스 사용자와 맞는 주제 | ⬜ (13월의 월급과 기능이 겹치지 않게 주의) |
@@ -61,7 +61,8 @@
 | 13월의 월급 | `projects/bonus13` | bonus13 | **보류**(토스 정책 CARNIVAL) |
 | 경조사비 장부 | `projects/gyeongjo-book` | gyeongjo-memo | 검토 요청 직전(서약·휴대폰 테스트 대기) |
 | 나의 돈 습관 결산 | `projects/money-habit` | money-habit-test | 검토 요청 직전(서약·휴대폰 테스트 대기) |
-| 무지출 챌린지 | `projects/no-spend` | no-spend-challenge | 코드·로고·PRD 완성, 콘솔 등록 대기 |
+| 무지출 도장판 | `projects/no-spend` | no-spend-challenge | 콘솔 등록 진행 중(앱 이름 '무지출 챌린지'는 토스 서비스명이라 불가) |
+| N빵 정산기 | `projects/nbbang` | nbbang-calc | 코드·로고·PRD 완성, 콘솔 등록 대기 |
 | 찰떡 떡집 키우기 | `projects/chaltteok-ricecake` | chaltteok-ricecake | 사업자 업종 추가(홈택스) → 게임제작업 등록 → 등급분류 후 등록 |
 
 ## 6. 공통 규칙
