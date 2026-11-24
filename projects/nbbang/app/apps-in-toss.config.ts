@@ -1,7 +1,7 @@
 import { defineConfig } from '@apps-in-toss/web-framework/config';
 
 export default defineConfig({
-  appName: 'nbbang-calc',
+  appName: 'nbbang-jeongsan-gi',
   permissions: [],
   navigationBar: {
     withBackButton: true,

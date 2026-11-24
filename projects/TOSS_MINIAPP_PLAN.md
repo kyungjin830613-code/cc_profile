@@ -38,8 +38,8 @@
 | 1 | 찰떡 떡집 키우기 (방치형 게임) | 게임 | 매일 수확, 출석 | ✅ 기획서·코드·로고 완성 `projects/chaltteok-ricecake` · 출시 전 등급분류·게임제작업 등록 필요 |
 | 2 | 13월의 월급 (연말정산 미리보기) | 금융·세금 | 12~2월 성수기 | ✅ 코드·로고 완성 `projects/bonus13` (appName `bonus13`) · 토스 콘솔 등록 진행 중 |
 | 3 | 경조사비 장부 (세뱃돈 계산기 대신) | 생활·기록 | 1년 내내 결혼식·장례식·돌잔치, 기록이 쌓여 재방문 | ✅ 기획서·코드·로고 완성 `projects/gyeongjo-book` (appName `gyeongjo-memo`) |
-| 4 | 무지출 챌린지 + 52주 저축 챌린지(한 앱) | 절약 습관 | 매일 도장, 매주 저축 체크 | ✅ 기획서·코드·로고 완성 `projects/no-spend` (appName `no-spend-challenge`) |
-| 5 | N빵 정산기 (더치페이) | 생활 도구 | 모임마다, 정산 문구 공유로 확산 | ✅ 기획서·코드·로고 완성 `projects/nbbang` (appName `nbbang-calc`) |
+| 4 | 무지출 챌린지 + 52주 저축 챌린지(한 앱) | 절약 습관 | 매일 도장, 매주 저축 체크 | ✅ 기획서·코드·로고 완성 `projects/no-spend` (appName `mujichul-dojangpan`) |
+| 5 | N빵 정산기 (더치페이) | 생활 도구 | 모임마다, 정산 문구 공유로 확산 | ✅ 기획서·코드·로고 완성 `projects/nbbang` (appName `nbbang-jeongsan-gi`) |
 | 6 | 물 한 잔 습관 (물 마시기 + 건강 체크) | 건강 습관 | 하루 여러 번, 연속 일수 | ✅ 기획서·코드·로고 완성 `projects/water-habit` (appName `water-cup-habit`) |
 | 7 | 오늘 점심 룰렛 | 재미·생활 | 매일 점심시간, 최근 먹은 메뉴 기록 | ✅ 기획서·코드·로고 완성 `projects/lunch-roulette` (appName `lunch-roulette-today`) |
 | 8 | 월급 실수령액 계산기 | 금융 계산 | 토스 사용자와 맞는 주제 | ⬜ (13월의 월급과 기능이 겹치지 않게 주의) |
@@ -59,12 +59,12 @@
 | 찰떡 지갑궁합 | `projects/chaltteok-wallet` | chaltteok-wallet | 토스 검수 승인 → 출시하기 대기 |
 | 찰떡 신년운세 | `projects/chaltteok-newyear-2027` | chaltteok-newyear | 토스 검수 승인 → 출시하기 대기 |
 | 13월의 월급 | `projects/bonus13` | bonus13 | **보류**(토스 정책 CARNIVAL) |
-| 경조사비 장부 | `projects/gyeongjo-book` | gyeongjo-memo | 검토 요청 직전(서약·휴대폰 테스트 대기) |
+| 경조사비 장부 | `projects/gyeongjo-book` | gyeongjo-memo | 검토 요청 직전 |
 | 나의 돈 습관 결산 | `projects/money-habit` | money-habit-test | 검토 요청 직전(서약·휴대폰 테스트 대기) |
-| 무지출 도장판 | `projects/no-spend` | no-spend-challenge | 콘솔 등록 진행 중(앱 이름 '무지출 챌린지'는 토스 서비스명이라 불가) |
-| N빵 정산기 | `projects/nbbang` | nbbang-calc | 코드·로고·PRD 완성, 콘솔 등록 대기 |
-| 물 한 잔 습관 | `projects/water-habit` | water-cup-habit | 코드·로고·PRD 완성, 콘솔 등록 대기 |
-| 오늘 점심 룰렛 | `projects/lunch-roulette` | lunch-roulette-today | 코드·로고·PRD 완성, 콘솔 등록 대기 |
+| 무지출 도장판 | `projects/no-spend` | mujichul-dojangpan | 콘솔 등록 진행 중(앱 이름 '무지출 챌린지'는 토스 서비스명이라 불가) |
+| N빵 정산기 | `projects/nbbang` | nbbang-jeongsan-gi | 코드·로고·PRD 완성, 콘솔 등록 대기 |
+| 물 한 잔 습관 | `projects/water-habit` | water-cup-habit | 검토 요청 직전 |
+| 오늘 점심 룰렛 | `projects/lunch-roulette` | lunch-roulette-today | 검토 요청 직전 |
 | 찰떡 떡집 키우기 | `projects/chaltteok-ricecake` | chaltteok-ricecake | 사업자 업종 추가(홈택스) → 게임제작업 등록 → 등급분류 후 등록 |
 
 ## 6. 공통 규칙

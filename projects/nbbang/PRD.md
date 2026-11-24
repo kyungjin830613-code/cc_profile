@@ -1,6 +1,6 @@
 # N빵 정산기 기획서 (PRD)
 
-- appName: `nbbang-calc` / 앱 유형: 비게임 / 앱 이름(10자 이내): N빵 정산기
+- appName: `nbbang-jeongsan-gi`(nbbang-calc·nbbang-split은 이미 사용 중) / 앱 유형: 비게임 / 앱 이름(10자 이내): N빵 정산기
 - "더치페이"는 토스 기능 이름과 겹칠 수 있어 앱 이름에 쓰지 않음(무지출 챌린지가 "토스 서비스명과 동일"로 막힌 전례)
 - 폴더: `projects/nbbang/app`, 로고: `assets/logo-1024.png`, `assets/logo-600.png`
 - 토스 정책 사전 검사: **APPROVED** (2026-11-23, 4번 "모임 비용을 인원과 항목별로 나눠 계산하고 정산 문구를 공유하는 단순 계산기")
