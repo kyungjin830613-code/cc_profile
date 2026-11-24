@@ -69,7 +69,7 @@ export default function App() {
   };
 
   const share = async () => {
-    const msg = tab === 'nospend' ? `[무지출 챌린지] 이번 달 무지출 ${monthCount}일째, ${streak}일 연속 도전 중! 💪` : `[52주 저축 챌린지] 지금까지 ${won(savedTotal(data.weekly!.base, new Set(data.weekly!.done), data.weekly!.reverse))} 모았어요! 🐷`;
+    const msg = tab === 'nospend' ? `[무지출 도장판] 이번 달 무지출 ${monthCount}일째, ${streak}일 연속 도전 중! 💪` : `[52주 저축 챌린지] 지금까지 ${won(savedTotal(data.weekly!.base, new Set(data.weekly!.done), data.weekly!.reverse))} 모았어요! 🐷`;
     const r = await shareText(`${msg}\n같이 해요: ${await appLink()}`);
     setStatus(r === 'shared' ? '' : r === 'copied' ? '문구를 복사했어요.' : '공유가 막혔어요.');
   };
@@ -99,7 +99,7 @@ export default function App() {
   return (
     <main className="app">
       <header className="top">
-        <h1>무지출 챌린지</h1>
+        <h1>무지출 도장판</h1>
         <p>돈 안 쓴 날엔 도장 쾅! 매주 조금씩 모으는 52주 저축까지.</p>
       </header>
 
