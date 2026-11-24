@@ -1,0 +1,15 @@
+@import '../../../_shared/tds-base.css';
+.head { padding: 20px 20px 12px; }
+.head h1 { margin: 0 0 2px; font-size: 22px; font-weight: 700; }
+.top-gap { padding-top: 20px; display: grid; gap: 6px; }
+.hero { margin: 0 20px 12px; background: var(--card); border-radius: 24px; padding: 20px; display: grid; grid-template-columns: 72px 1fr; gap: 14px; align-items: center; }
+.hero-emoji { font-size: 38px; width: 72px; height: 72px; display: grid; place-items: center; background: var(--blue-weak); border-radius: 22px; }
+.row-emoji { font-size: 20px; width: 40px; height: 40px; display: grid; place-items: center; background: #f2f4f6; border-radius: 12px; }
+.flash { margin: 12px 20px; min-height: 260px; background: var(--card); border-radius: 24px; padding: 28px 20px; display: grid; place-content: center; justify-items: center; gap: 12px; text-align: center; }
+.pos { font-size: 13px; font-weight: 700; color: var(--blue); background: var(--blue-weak); padding: 3px 10px; border-radius: 999px; }
+.en { font-size: 40px; font-weight: 800; letter-spacing: -0.01em; color: var(--ink); word-break: break-word; }
+.ko { margin: 0; font-size: 22px; font-weight: 700; color: var(--sub2); }
+.choice.dim { opacity: 0.45; }
+.big-emoji { font-size: 56px; }
+button:focus-visible { outline: 3px solid #3182f666; outline-offset: 2px; }
+.hero-text { display: grid; gap: 2px; }

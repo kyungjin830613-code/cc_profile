@@ -43,7 +43,7 @@
 | 6 | 물 한 잔 습관 (물 마시기 + 건강 체크) | 건강 습관 | 하루 여러 번, 연속 일수 | ✅ 기획서·코드·로고 완성 `projects/water-habit` (appName `water-cup-habit`) |
 | 7 | 오늘 점심 룰렛 | 재미·생활 | 매일 점심시간, 최근 먹은 메뉴 기록 | ✅ 기획서·코드·로고 완성 `projects/lunch-roulette` (appName `lunch-roulette-today`) |
 | 8 | 월급 실수령액 계산기 | 금융 계산 | 토스 사용자와 맞는 주제 | ⬜ (13월의 월급과 기능이 겹치지 않게 주의) |
-| 9 | 단어·상식 하루 퀴즈 | 퀴즈 게임 | 매일 새 문제 | ⬜ (게임으로 분류되면 등급분류 필요) |
+| 9 | 하루 영단어 (단어·상식 퀴즈 칸) | 학습 습관 | 매일 새 단어 5개 + 간격 복습 | ✅ 기획서·코드·로고 완성(TDS) `projects/daily-words` (appName `haru-eng-word`) · 점수 경쟁 없는 학습 도구로 만들어 게임 분류 피함 |
 | 10 | 우리집 공과금 계산 (전기·가스요금) | 절약 | 겨울 난방철·여름 냉방철 | ✅ 기획서·코드·로고 완성 `projects/utility-bill` (appName `urizip-gonggwagum`) |
 
 ### 정책 사전 검사 결과 (2026-11-23, 앱 만들기 창 첫 판정)
@@ -70,6 +70,7 @@
 | 디데이 모아보기 | `projects/dday` | dday-countdown-kr | 콘솔 등록 진행 중 |
 | 평수 계산기 | `projects/pyeong` | pyeongsu-calc-kr | 콘솔 등록 진행 중 |
 | 집중 타이머 | `projects/focus-timer` | jipjung-timer-kr | 코드·로고·PRD 완성, 콘솔 등록 대기 |
+| 하루 영단어 | `projects/daily-words` | haru-eng-word | 코드·로고·PRD 완성(TDS), 콘솔 등록 대기 |
 | 찰떡 떡집 키우기 | `projects/chaltteok-ricecake` | chaltteok-ricecake | 사업자 업종 추가(홈택스) → 게임제작업 등록 → 등급분류 후 등록 |
 
 ## 6. 공통 규칙
