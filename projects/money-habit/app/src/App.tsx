@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
+import { BottomCTA, Button, ListHeader, ListRow, Paragraph, ProgressBar, Top } from '@toss/tds-mobile';
 import { QUESTIONS, TYPES, mix, resultOf, type TypeId } from './lib/quiz';
-import { appLink, inToss, loadItem, saveImage, saveItem, shareText } from './lib/toss';
+import { appLink, loadItem, saveImage, saveItem, shareText } from './lib/toss';
 
 const STORE_KEY = 'result.v1';
 type Screen = 'start' | 'quiz' | 'result';
@@ -118,124 +119,111 @@ export default function App() {
   };
 
   return (
-    <main className="app" style={t ? { ['--accent' as string]: t.color } : undefined}>
+    <div className={`page ${screen === 'start' ? 'has-cta' : ''}`}>
       {screen === 'start' && (
-        <section className="start">
-          <p className="badge">2026 연말 결산</p>
-          <h1>나의 돈 습관 결산</h1>
-          <p className="lead">질문 10개로 알아보는 올해 나의 소비·저축 유형. 내년 돈 목표까지 추천해 드려요.</p>
+        <>
+          <Top title={<Top.TitleParagraph size={22}>나의 돈 습관 결산</Top.TitleParagraph>} subtitleBottom={<Top.SubtitleParagraph>질문 10개로 알아보는 2026년 나의 소비·저축 유형</Top.SubtitleParagraph>} />
           <div className="zoo" aria-hidden>
             {Object.values(TYPES).map((x) => (
-              <span key={x.id}>{x.emoji}</span>
+              <span key={x.id} style={{ background: `${x.color}22` }}>
+                {x.emoji}
+              </span>
             ))}
           </div>
-          <button className="primary" type="button" onClick={restart}>
-            테스트 시작하기
-          </button>
           {saved && (
-            <button className="ghost" type="button" onClick={() => setScreen('result')}>
-              지난 결과 보기: {TYPES[saved.id].emoji} {TYPES[saved.id].name}
-            </button>
+            <ul className="list">
+              <ListRow onClick={() => setScreen('result')} left={<span className="row-emoji">{TYPES[saved.id].emoji}</span>} contents={<ListRow.Texts type="2RowTypeA" top="지난 결과 다시 보기" bottom={TYPES[saved.id].name} />} withArrow />
+            </ul>
           )}
-        </section>
+          <p className="foot">재미로 보는 소비 습관 테스트예요. 투자·금융 상품 조언이 아니에요. 답은 이 기기에만 저장돼요.</p>
+          <BottomCTA onClick={restart}>테스트 시작하기</BottomCTA>
+        </>
       )}
 
       {screen === 'quiz' && answers.length < QUESTIONS.length && (
-        <section className="quiz">
-          <div className="progress" aria-label={`${answers.length + 1} / ${QUESTIONS.length}`}>
-            <i style={{ width: `${((answers.length + 1) / QUESTIONS.length) * 100}%` }} />
+        <>
+          <div className="pad quiz-top">
+            <ProgressBar progress={(answers.length + 1) / QUESTIONS.length} size="normal" animate />
+            <Paragraph.Text typography="t6" color="var(--sub)">{`${answers.length + 1} / ${QUESTIONS.length}`}</Paragraph.Text>
           </div>
-          <p className="qnum">Q{answers.length + 1}</p>
-          <h2>{QUESTIONS[answers.length].q}</h2>
-          <div className="opts">
+          <Top title={<Top.TitleParagraph size={22}>{QUESTIONS[answers.length].q}</Top.TitleParagraph>} />
+          <div className="actions">
             {QUESTIONS[answers.length].options.map((o, i) => (
-              <button key={o.text} type="button" onClick={() => pick(i)}>
+              <Button key={o.text} display="block" size="large" variant="weak" color="dark" onClick={() => pick(i)}>
                 {o.text}
-              </button>
+              </Button>
             ))}
           </div>
           {answers.length > 0 && (
-            <button className="back" type="button" onClick={() => setAnswers(answers.slice(0, -1))}>
-              ← 이전 질문
-            </button>
+            <div className="actions">
+              <Button display="block" size="medium" variant="weak" color="light" onClick={() => setAnswers(answers.slice(0, -1))}>
+                이전 질문
+              </Button>
+            </div>
           )}
-        </section>
+        </>
       )}
 
       {screen === 'result' && current && t && (
-        <section className="result">
-          <div className="hero">
-            <p>2026년 나는</p>
+        <>
+          <div className="hero" style={{ background: `${t.color}1f` }}>
+            <Paragraph.Text typography="t6" color="var(--sub2)">
+              2026년 나는
+            </Paragraph.Text>
             <span className="emoji" aria-hidden>
               {t.emoji}
             </span>
-            <h1>{t.name}</h1>
-            <p className="summary">{t.summary}</p>
+            <strong>{t.name}</strong>
+            <p>{t.summary}</p>
           </div>
 
+          <ListHeader title={<ListHeader.TitleParagraph typography="t5" fontWeight="bold">내 안의 동물들</ListHeader.TitleParagraph>} />
           <div className="card">
-            <h2>내 안의 동물들</h2>
-            <ul className="mix">
-              {mix(current.answers).map((m) => (
-                <li key={m.id}>
-                  <span>
-                    {TYPES[m.id].emoji} {TYPES[m.id].animal}
-                  </span>
-                  <span className="bar">
-                    <i style={{ width: `${m.pct}%`, background: TYPES[m.id].color }} />
-                  </span>
-                  <b>{m.pct}%</b>
-                </li>
-              ))}
-            </ul>
+            {mix(current.answers).map((m) => (
+              <div key={m.id} className="mix">
+                <span>{`${TYPES[m.id].emoji} ${TYPES[m.id].animal}`}</span>
+                <ProgressBar progress={m.pct / 100} size="bold" color={TYPES[m.id].color} />
+                <b>{m.pct}%</b>
+              </div>
+            ))}
           </div>
 
-          <div className="card two">
-            <div>
-              <h3>👍 좋은 점</h3>
-              <p>{t.good}</p>
+          <ul className="list">
+            <ListRow left={<span className="row-emoji">👍</span>} contents={<ListRow.Texts type="2RowTypeA" top="좋은 점" bottom={t.good} />} />
+            <ListRow left={<span className="row-emoji">👀</span>} contents={<ListRow.Texts type="2RowTypeA" top="조심할 점" bottom={t.watch} />} />
+          </ul>
+
+          <ListHeader title={<ListHeader.TitleParagraph typography="t5" fontWeight="bold">2027년 돈 목표 추천</ListHeader.TitleParagraph>} />
+          <ul className="list">
+            {t.goals.map((g, i) => (
+              <ListRow key={g} left={<span className="num">{i + 1}</span>} contents={<ListRow.Texts type="1RowTypeA" top={g} />} />
+            ))}
+          </ul>
+
+          <ul className="list">
+            <ListRow left={<span className="row-emoji">{TYPES[t.buddy].emoji}</span>} contents={<ListRow.Texts type="2RowTypeA" top="나와 잘 맞는 짝꿍" bottom={TYPES[t.buddy].name} />} />
+          </ul>
+
+          <div className="actions">
+            <div className="row2">
+              <Button display="block" onClick={share}>
+                친구에게 공유
+              </Button>
+              <Button display="block" variant="weak" onClick={save}>
+                카드 저장
+              </Button>
             </div>
-            <div>
-              <h3>👀 조심할 점</h3>
-              <p>{t.watch}</p>
-            </div>
-          </div>
-
-          <div className="card">
-            <h2>2027년 돈 목표 추천</h2>
-            <ol className="goals">
-              {t.goals.map((g) => (
-                <li key={g}>{g}</li>
-              ))}
-            </ol>
-          </div>
-
-          <div className="card buddy">
-            <p>
-              나와 잘 맞는 짝꿍: <b>{TYPES[t.buddy].emoji} {TYPES[t.buddy].name}</b>
-            </p>
-            <small>서로의 빈 곳을 채워 주는 사이예요.</small>
-          </div>
-
-          <div className="row">
-            <button className="primary" type="button" onClick={share}>
-              친구에게 공유
-            </button>
-            <button className="ghost" type="button" onClick={save}>
-              카드 저장
-            </button>
+            <Button display="block" variant="weak" color="dark" onClick={restart}>
+              다시 하기
+            </Button>
           </div>
           <p className="note" role="status">
             {status}
           </p>
           {image && <img className="shot" src={image} alt={`${t.name} 결과 카드`} />}
-          <button className="ghost" type="button" onClick={restart}>
-            다시 하기
-          </button>
-        </section>
+          <p className="foot">재미로 보는 소비 습관 테스트예요. 투자·금융 상품 조언이 아니에요.</p>
+        </>
       )}
-
-      <footer className="foot">재미로 보는 소비 습관 테스트예요. 투자·금융 상품 조언이 아니에요. 답은 이 기기에만 저장돼요.{!inToss() && ' 지금은 토스 밖 미리보기 화면이에요.'}</footer>
-    </main>
+    </div>
   );
 }
