@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { Button, ListHeader, Paragraph } from '@toss/tds-mobile';
 import { PRESETS, advance, clock, dayOf, hm, lastWeek, newTimer, pause, remaining, reset, restoreLog, restoreTimer, setPreset, skip, start, streak, type Log, type TimerState } from './lib/timer';
 import { appLink, inToss, loadItem, saveItem, shareText } from './lib/toss';
 
@@ -76,13 +77,11 @@ export default function App() {
   };
 
   return (
-    <main className={`app ${timer.phase}`}>
-      <header className="top">
+    <div className={`page ${timer.phase}`}>
+      <div className="head">
         <h1>집중 타이머</h1>
-        <p>
-          오늘 {todaySessions}회 · {hm(todayMin)} {st > 0 && `· 🔥 ${st}일 연속`}
-        </p>
-      </header>
+        <Paragraph.Text typography="t6" color="var(--sub)">{`오늘 ${todaySessions}회 · ${hm(todayMin)}${st > 0 ? ` · 🔥 ${st}일 연속` : ''}`}</Paragraph.Text>
+      </div>
 
       <section className="stage">
         <div className="ring" role="timer" aria-label={`${timer.phase === 'focus' ? '집중' : '휴식'} ${clock(left)} 남음`}>
@@ -91,50 +90,59 @@ export default function App() {
             <circle cx="140" cy="140" r={R} className="fill" strokeDasharray={CIRC} strokeDashoffset={CIRC * (1 - frac)} transform="rotate(-90 140 140)" />
           </svg>
           <div className="center">
-            <small>{timer.phase === 'focus' ? '🍅 집중' : '☕ 휴식'}</small>
+            <span className="phase">{timer.phase === 'focus' ? '🍅 집중' : '☕ 휴식'}</span>
             <strong>{clock(left)}</strong>
-          </div>
-        </div>
-        <div className="controls">
-          {running ? (
-            <button className="primary" type="button" onClick={() => setTimer((t) => pause(t, Date.now()))}>
-              일시정지
-            </button>
-          ) : (
-            <button className="primary" type="button" onClick={() => setTimer((t) => start(t, Date.now()))}>
-              {left < total ? '이어서 시작' : timer.phase === 'focus' ? '집중 시작' : '휴식 시작'}
-            </button>
-          )}
-          <div className="row">
-            <button className="ghost" type="button" onClick={() => setTimer((t) => reset(t))}>
-              처음부터
-            </button>
-            <button className="ghost" type="button" onClick={() => setTimer((t) => skip(t))}>
-              {timer.phase === 'focus' ? '휴식으로 건너뛰기' : '휴식 건너뛰기'}
-            </button>
           </div>
         </div>
         <div className="presets" role="radiogroup" aria-label="시간 설정">
           {PRESETS.map((p) => (
-            <button key={p.label} type="button" role="radio" aria-checked={timer.focusMin === p.focus} className={timer.focusMin === p.focus ? 'on' : ''} disabled={running} onClick={() => setTimer(setPreset(p.focus, p.rest))}>
-              {p.label}분
-            </button>
+            <Button
+              key={p.label}
+              size="small"
+              role="radio"
+              aria-checked={timer.focusMin === p.focus}
+              variant={timer.focusMin === p.focus ? 'fill' : 'weak'}
+              color={timer.focusMin === p.focus ? 'primary' : 'dark'}
+              disabled={running}
+              onClick={() => setTimer(setPreset(p.focus, p.rest))}
+            >
+              {`${p.label}분`}
+            </Button>
           ))}
+        </div>
+        <div className="controls">
+          {running ? (
+            <Button display="block" size="xlarge" variant="weak" onClick={() => setTimer((t) => pause(t, Date.now()))}>
+              일시정지
+            </Button>
+          ) : (
+            <Button display="block" size="xlarge" onClick={() => setTimer((t) => start(t, Date.now()))}>
+              {left < total ? '이어서 시작' : timer.phase === 'focus' ? '집중 시작' : '휴식 시작'}
+            </Button>
+          )}
+          <div className="row2">
+            <Button display="block" size="medium" variant="weak" color="dark" onClick={() => setTimer((t) => reset(t))}>
+              처음부터
+            </Button>
+            <Button display="block" size="medium" variant="weak" color="dark" onClick={() => setTimer((t) => skip(t))}>
+              {timer.phase === 'focus' ? '휴식으로' : '휴식 건너뛰기'}
+            </Button>
+          </div>
         </div>
       </section>
 
       <section className="card">
-        <div className="goal">
+        <div className="setrow">
           <span>
-            오늘 목표 <b>{todaySessions}</b> / {goal}회
+            오늘 목표 <b className="em">{todaySessions}</b> / {goal}회
           </span>
           <span className="stepper">
-            <button type="button" aria-label="목표 줄이기" onClick={() => setGoal((g) => Math.max(1, g - 1))}>
+            <Button size="small" variant="weak" color="dark" aria-label="목표 줄이기" onClick={() => setGoal((g) => Math.max(1, g - 1))}>
               −
-            </button>
-            <button type="button" aria-label="목표 늘리기" onClick={() => setGoal((g) => Math.min(16, g + 1))}>
+            </Button>
+            <Button size="small" variant="weak" color="dark" aria-label="목표 늘리기" onClick={() => setGoal((g) => Math.min(16, g + 1))}>
               +
-            </button>
+            </Button>
           </span>
         </div>
         <div className="tomatoes" aria-hidden>
@@ -146,8 +154,14 @@ export default function App() {
         </div>
       </section>
 
+      <ListHeader
+        title={
+          <ListHeader.TitleParagraph typography="t5" fontWeight="bold">
+            최근 7일
+          </ListHeader.TitleParagraph>
+        }
+      />
       <section className="card">
-        <h2>최근 7일</h2>
         <div className="bars" role="img" aria-label={`최근 7일 집중 분: ${week.map((w) => w.minutes).join(', ')}`}>
           {week.map((w) => {
             const [y, m, d] = w.day.split('-').map(Number);
@@ -162,22 +176,26 @@ export default function App() {
             );
           })}
         </div>
-        <p className="note">막대 위 숫자는 분이에요. 끝까지 마친 집중만 기록돼요.</p>
+        <Paragraph.Text typography="t7" color="var(--sub)">
+          막대 위 숫자는 분이에요. 끝까지 마친 집중만 기록돼요.
+        </Paragraph.Text>
       </section>
 
-      <button className="ghost" type="button" onClick={share}>
-        오늘 집중 시간 공유
-      </button>
+      <div className="actions">
+        <Button display="block" variant="weak" onClick={share}>
+          오늘 집중 시간 공유
+        </Button>
+      </div>
       <p className="note" role="status">
         {status}
       </p>
-      <footer className="foot">앱을 닫아도 시간은 계속 흘러요. 다시 열면 남은 시간이 맞게 보여요. 기록은 이 기기에만 저장돼요.{!inToss() && ' 지금은 토스 밖 미리보기 화면이에요.'}</footer>
+      <p className="foot">앱을 닫아도 시간은 계속 흘러요. 다시 열면 남은 시간이 맞게 보여요. 기록은 이 기기에만 저장돼요.{!inToss() && ' 지금은 토스 밖 미리보기 화면이에요.'}</p>
 
       {toast && (
         <div key={toast + todaySessions} className="toast" role="status" onAnimationEnd={() => setToast('')}>
           {toast}
         </div>
       )}
-    </main>
+    </div>
   );
 }
