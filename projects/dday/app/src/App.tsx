@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
+import { BottomCTA, BottomSheet, Button, ListHeader, ListRow, Paragraph, SegmentedControl, TextField, Top } from '@toss/tds-mobile';
 import { ddayLabel, dayOf, diffDays, progress, restore, sinceCount, sortEvents, upcomingMilestones, weekdayKo, type Event, type Kind } from './lib/dday';
-import { appLink, inToss, loadItem, saveItem, shareText } from './lib/toss';
+import { appLink, loadItem, saveItem, shareText } from './lib/toss';
 
 const STORE_KEY = 'dday.v1';
 const EMOJIS = ['📚', '💕', '🪖', '👶', '✈️', '🎂', '💼', '🎉'];
 const newId = () => `${Date.now().toString(36)}${Math.random().toString(36).slice(2, 6)}`;
+const dot = (d: string) => d.replace(/-/g, '.');
 
 interface Draft {
   id: string | null;
@@ -29,7 +31,6 @@ export default function App() {
   const [today, setToday] = useState(() => dayOf(new Date()));
   const [draft, setDraft] = useState<Draft | null>(null);
   const [error, setError] = useState('');
-  const [status, setStatus] = useState('');
 
   useEffect(() => {
     loadItem(STORE_KEY).then((raw) => {
@@ -46,6 +47,7 @@ export default function App() {
   const sorted = sortEvents(events, today);
   const hero = sorted[0];
   const rest = sorted.slice(1);
+  const label = (e: Event) => (e.kind === 'countdown' ? ddayLabel(e.date, today) : `${sinceCount(e.date, today).toLocaleString('ko-KR')}일째`);
 
   const save = () => {
     if (!draft) return;
@@ -63,132 +65,119 @@ export default function App() {
   };
 
   const quick = (title: string, date: string, emoji: string) => setEvents((l) => (l.some((x) => x.title === title && x.date === date) ? l : [...l, { id: newId(), title, date, kind: 'countdown', emoji }]));
-
-  const label = (e: Event) => (e.kind === 'countdown' ? ddayLabel(e.date, today) : `${sinceCount(e.date, today).toLocaleString('ko-KR')}일째`);
+  const quickList: [string, string, string][] = (
+    [
+      ['설날', '2027-02-06', '🧧'],
+      ['크리스마스', nextOn(today, '12-25'), '🎄'],
+      ['새해', nextOn(today, '01-01'), '🎉'],
+    ] as [string, string, string][]
+  ).filter(([t, d]) => !events.some((x) => x.title === t && x.date === d));
 
   const share = async (e: Event) => {
-    const text = e.kind === 'countdown' ? `[디데이] ${e.emoji} ${e.title}까지 ${ddayLabel(e.date, today)}!` : `[디데이] ${e.emoji} ${e.title} 오늘로 ${sinceCount(e.date, today).toLocaleString('ko-KR')}일째 💕`;
-    const r = await shareText(`${text}\n나도 디데이 만들기: ${await appLink()}`);
-    setStatus(r === 'shared' ? '' : r === 'copied' ? '문구를 복사했어요.' : '공유가 막혔어요.');
+    const text = e.kind === 'countdown' ? `${e.emoji} ${e.title}까지 ${ddayLabel(e.date, today)}!` : `${e.emoji} ${e.title} 오늘로 ${sinceCount(e.date, today).toLocaleString('ko-KR')}일째`;
+    await shareText(`[디데이 모아보기] ${text}\n${await appLink()}`);
   };
-
   const edit = (e: Event) => setDraft({ id: e.id, title: e.title, date: e.date, kind: e.kind, emoji: e.emoji, start: e.start ?? '', pinned: !!e.pinned });
 
   return (
-    <main className="app">
-      <header className="top">
-        <h1>디데이 모아보기</h1>
-        <p>
-          오늘은 {today.replace(/-/g, '.')} ({weekdayKo(today)})
-        </p>
-      </header>
+    <div className="page">
+      <Top
+        title={<Top.TitleParagraph size={22}>디데이 모아보기</Top.TitleParagraph>}
+        subtitleBottom={<Top.SubtitleParagraph>{`오늘은 ${dot(today)} (${weekdayKo(today)})`}</Top.SubtitleParagraph>}
+      />
 
       {hero ? (
-        <section className="hero">
-          <button type="button" className="hero-body" onClick={() => edit(hero)} aria-label={`${hero.title} 고치기`}>
-            <span className="emoji" aria-hidden>
-              {hero.emoji}
-            </span>
-            <span className="title">{hero.title}</span>
-            <strong>{label(hero)}</strong>
-            <span className="date">
-              {hero.date.replace(/-/g, '.')} ({weekdayKo(hero.date)}){hero.kind === 'since' ? ' 부터' : ''}
-            </span>
-          </button>
+        <section className="hero" onClick={() => edit(hero)} role="button" tabIndex={0} aria-label={`${hero.title} 고치기`}>
+          <span className="emoji" aria-hidden>
+            {hero.emoji}
+          </span>
+          <Paragraph.Text typography="t5" fontWeight="semibold" color="var(--hero-sub)">
+            {hero.title}
+          </Paragraph.Text>
+          <strong className="big">{label(hero)}</strong>
+          <Paragraph.Text typography="t7" color="var(--hero-sub)">
+            {`${dot(hero.date)} (${weekdayKo(hero.date)})${hero.kind === 'since' ? ' 부터' : ''}`}
+          </Paragraph.Text>
           {hero.kind === 'countdown' && hero.start && (
             <div className="prog">
               <span className="bar">
                 <i style={{ width: `${progress(hero.start, hero.date, today)}%` }} />
               </span>
-              <small>{progress(hero.start, hero.date, today)}% 지나왔어요</small>
+              <Paragraph.Text typography="t7" color="var(--hero-sub)">{`${progress(hero.start, hero.date, today)}% 지나왔어요`}</Paragraph.Text>
             </div>
           )}
           {hero.kind === 'since' && (
             <ul className="miles">
               {upcomingMilestones(hero.date, today).map((m) => (
                 <li key={m.label}>
-                  <b>{m.label}</b> {m.date.replace(/-/g, '.')} <span>{m.left === 0 ? '오늘!' : `D-${m.left}`}</span>
+                  <b>{m.label}</b> {dot(m.date)} <span>{m.left === 0 ? '오늘!' : `D-${m.left}`}</span>
                 </li>
               ))}
             </ul>
           )}
-          <button className="share" type="button" onClick={() => share(hero)}>
-            공유하기
-          </button>
+          <div className="hero-actions" onClick={(ev) => ev.stopPropagation()}>
+            <Button size="small" variant="weak" color="primary" onClick={() => share(hero)}>
+              공유하기
+            </Button>
+          </div>
         </section>
       ) : (
-        <section className="card empty">
-          <p>첫 디데이를 만들어 볼까요? 아래에서 바로 골라도 돼요.</p>
-        </section>
+        <div className="empty">
+          <Paragraph.Text typography="t5" color="var(--sub)">
+            첫 디데이를 만들어 볼까요?
+          </Paragraph.Text>
+        </div>
       )}
 
       {rest.length > 0 && (
-        <ul className="list">
-          {rest.map((e) => {
-            const past = e.kind === 'countdown' && diffDays(today, e.date) < 0;
-            return (
-              <li key={e.id}>
-                <button type="button" className={`item ${past ? 'past' : ''}`} onClick={() => edit(e)}>
-                  <span className="emoji" aria-hidden>
-                    {e.emoji}
-                  </span>
-                  <span className="who">
-                    <b>{e.title}</b>
-                    <small>
-                      {e.date.replace(/-/g, '.')} ({weekdayKo(e.date)})
-                    </small>
-                  </span>
-                  <span className="d">{label(e)}</span>
-                </button>
-              </li>
-            );
-          })}
-        </ul>
+        <>
+          <ListHeader title={<ListHeader.TitleParagraph typography="t5" fontWeight="bold">내 디데이</ListHeader.TitleParagraph>} />
+          <ul className="list">
+            {rest.map((e) => {
+              const past = e.kind === 'countdown' && diffDays(today, e.date) < 0;
+              return (
+                <ListRow
+                  key={e.id}
+                  onClick={() => edit(e)}
+                  left={<span className="row-emoji">{e.emoji}</span>}
+                  contents={<ListRow.Texts type="2RowTypeA" top={e.title} bottom={`${dot(e.date)} (${weekdayKo(e.date)})`} />}
+                  right={
+                    <Paragraph.Text typography="t4" fontWeight="bold" color={past ? 'var(--sub)' : 'var(--blue)'}>
+                      {label(e)}
+                    </Paragraph.Text>
+                  }
+                />
+              );
+            })}
+          </ul>
+        </>
       )}
 
-      <div className="quick" aria-label="빠른 추가">
-        {[
-          ['설날', '2027-02-06', '🧧'],
-          ['크리스마스', nextOn(today, '12-25'), '🎄'],
-          ['새해', nextOn(today, '01-01'), '🎉'],
-        ]
-          .filter(([t, d]) => !events.some((x) => x.title === t && x.date === d))
-          .map(([t, d, em]) => (
-            <button key={t} type="button" onClick={() => quick(t, d, em)}>
-              {em} {t} 추가
-            </button>
+      {quickList.length > 0 && (
+        <div className="quick">
+          {quickList.map(([t, d, em]) => (
+            <Button key={t} size="small" variant="weak" onClick={() => quick(t, d, em)}>
+              {`${em} ${t} 추가`}
+            </Button>
           ))}
-      </div>
+        </div>
+      )}
 
-      <button className="primary" type="button" onClick={() => setDraft(blank(today))}>
-        + 디데이 추가
-      </button>
-      <p className="note" role="status">
-        {status}
-      </p>
-      <footer className="foot">디데이는 이 기기에만 저장돼요.{!inToss() && ' 지금은 토스 밖 미리보기 화면이에요.'}</footer>
+      <p className="foot">디데이는 이 기기에만 저장돼요.</p>
 
-      {draft && (
-        <div className="modal" role="dialog" aria-modal="true" aria-labelledby="d-title" onClick={() => setDraft(null)}>
-          <div className="sheet" onClick={(e) => e.stopPropagation()}>
-            <h2 id="d-title">{draft.id ? '디데이 고치기' : '디데이 추가'}</h2>
-            <div className="seg">
-              <button type="button" className={draft.kind === 'countdown' ? 'on' : ''} onClick={() => setDraft({ ...draft, kind: 'countdown' })}>
-                다가오는 날 (D-)
-              </button>
-              <button type="button" className={draft.kind === 'since' ? 'on' : ''} onClick={() => setDraft({ ...draft, kind: 'since', emoji: draft.emoji === '📚' ? '💕' : draft.emoji })}>
-                시작한 날부터 (+일)
-              </button>
-            </div>
-            <label htmlFor="t">이름</label>
-            <input id="t" value={draft.title} maxLength={20} onChange={(e) => setDraft({ ...draft, title: e.target.value })} placeholder={draft.kind === 'countdown' ? '예: 토익 시험, 전역일' : '예: 우리 사귄 날, 입사일'} />
-            <label htmlFor="dt">{draft.kind === 'countdown' ? '목표 날짜' : '시작한 날'}</label>
-            <input id="dt" type="date" value={draft.date} onChange={(e) => setDraft({ ...draft, date: e.target.value })} />
+      <BottomCTA onClick={() => setDraft(blank(today))}>디데이 추가</BottomCTA>
+
+      <BottomSheet open={draft !== null} onClose={() => setDraft(null)} header={<BottomSheet.Header>{draft?.id ? '디데이 고치기' : '디데이 추가'}</BottomSheet.Header>} cta={<BottomSheet.CTA onClick={save}>저장</BottomSheet.CTA>}>
+        {draft && (
+          <div className="sheet">
+            <SegmentedControl value={draft.kind} onChange={(v) => setDraft({ ...draft, kind: v as Kind, emoji: v === 'since' && draft.emoji === '📚' ? '💕' : draft.emoji })}>
+              <SegmentedControl.Item value="countdown">다가오는 날</SegmentedControl.Item>
+              <SegmentedControl.Item value="since">시작한 날부터</SegmentedControl.Item>
+            </SegmentedControl>
+            <TextField variant="box" label="이름" labelOption="sustain" value={draft.title} maxLength={20} placeholder={draft.kind === 'countdown' ? '예: 토익 시험, 전역일' : '예: 우리 사귄 날, 입사일'} onChange={(e) => setDraft({ ...draft, title: e.target.value })} />
+            <TextField variant="box" type="date" label={draft.kind === 'countdown' ? '목표 날짜' : '시작한 날'} labelOption="sustain" value={draft.date} onChange={(e) => setDraft({ ...draft, date: e.target.value })} />
             {draft.kind === 'countdown' && (
-              <>
-                <label htmlFor="st">시작일(선택, 진행률 표시)</label>
-                <input id="st" type="date" value={draft.start} onChange={(e) => setDraft({ ...draft, start: e.target.value })} />
-              </>
+              <TextField variant="box" type="date" label="시작일(선택, 진행률 표시)" labelOption="sustain" value={draft.start} onChange={(e) => setDraft({ ...draft, start: e.target.value })} />
             )}
             <div className="emojis" role="radiogroup" aria-label="아이콘">
               {EMOJIS.map((em) => (
@@ -201,27 +190,24 @@ export default function App() {
               <input type="checkbox" checked={draft.pinned} onChange={(e) => setDraft({ ...draft, pinned: e.target.checked })} />
               <span>맨 위에 크게 보기</span>
             </label>
-            <p className="error" role="alert">
-              {error}
-            </p>
-            <button className="primary" type="button" onClick={save}>
-              저장
-            </button>
+            {error && <p className="error">{error}</p>}
             {draft.id && (
-              <button
-                className="link"
-                type="button"
+              <Button
+                size="medium"
+                variant="weak"
+                color="danger"
+                display="block"
                 onClick={() => {
                   setEvents((l) => l.filter((x) => x.id !== draft.id));
                   setDraft(null);
                 }}
               >
                 이 디데이 지우기
-              </button>
+              </Button>
             )}
           </div>
-        </div>
-      )}
-    </main>
+        )}
+      </BottomSheet>
+    </div>
   );
 }
