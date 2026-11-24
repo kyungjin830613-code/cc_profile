@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Button, Paragraph, SegmentedControl, Slider, TextField } from '@toss/tds-mobile';
 import { COMMON_UNITS, DEFAULT_EXCLUSIVE_RATIO, fmt, parse, pyeongToSqm, roomArea, sqmToPyeong, supplyFromExclusive, typeName } from './lib/area';
 import { appLink, inToss, shareText } from './lib/toss';
 
@@ -40,88 +41,85 @@ export default function App() {
     setStatus(r === 'shared' ? '' : r === 'copied' ? '문구를 복사했어요.' : '공유가 막혔어요.');
   };
 
-  return (
-    <main className="app">
-      <header className="top">
-        <h1>평수 계산기</h1>
-        <p>평 ↔ ㎡ 바꾸기, 아파트 전용·공급면적, 방 크기까지</p>
-      </header>
+  const tf = (label: string, value: string, onChange: (v: string) => void, suffix: string, placeholder = '0', help?: string) => (
+    <div className="tf">
+      <TextField variant="box" label={label} labelOption="sustain" suffix={suffix} inputMode="decimal" placeholder={placeholder} value={value} help={help} onChange={(e) => onChange(e.target.value)} />
+    </div>
+  );
 
-      <nav className="tabs" role="tablist">
-        {(
-          [
-            ['convert', '평 ↔ ㎡'],
-            ['apt', '아파트 평형'],
-            ['room', '방 넓이'],
-          ] as [Tab, string][]
-        ).map(([id, label]) => (
-          <button key={id} role="tab" aria-selected={tab === id} className={tab === id ? 'on' : ''} type="button" onClick={() => setTab(id)}>
-            {label}
-          </button>
-        ))}
-      </nav>
+  return (
+    <div className="page">
+      <div className="head">
+        <h1>평수 계산기</h1>
+        <Paragraph.Text typography="t6" color="var(--sub)">
+          평 ↔ ㎡ 바꾸기, 아파트 전용·공급면적, 방 크기까지
+        </Paragraph.Text>
+      </div>
+
+      <div className="pad">
+        <SegmentedControl value={tab} onChange={(v: string) => setTab(v as Tab)}>
+          <SegmentedControl.Item value="convert">평 ↔ ㎡</SegmentedControl.Item>
+          <SegmentedControl.Item value="apt">아파트</SegmentedControl.Item>
+          <SegmentedControl.Item value="room">방 넓이</SegmentedControl.Item>
+        </SegmentedControl>
+      </div>
 
       {tab === 'convert' && (
         <section className="card">
-          <label htmlFor="py">평</label>
-          <div className="input-row">
-            <input id="py" inputMode="decimal" value={pyeong} onChange={(e) => onPyeong(e.target.value)} placeholder="0" />
-            <span>평</span>
-          </div>
+          {tf('평', pyeong, onPyeong, '평')}
           <p className="swap" aria-hidden>
             ⇅
           </p>
-          <label htmlFor="m2">제곱미터</label>
-          <div className="input-row">
-            <input id="m2" inputMode="decimal" value={sqm} onChange={(e) => onSqm(e.target.value)} placeholder="0" />
-            <span>㎡</span>
-          </div>
-          <p className="hint">1평 = 3.3058㎡ (400/121㎡). 어느 칸에 넣어도 바로 바뀌어요.</p>
+          {tf('제곱미터', sqm, onSqm, '㎡')}
+          <Paragraph.Text typography="t7" color="var(--sub)">
+            1평 = 3.3058㎡ (400/121㎡). 어느 칸에 넣어도 바로 바뀌어요.
+          </Paragraph.Text>
         </section>
       )}
 
       {tab === 'apt' && (
         <>
           <section className="card">
-            <label htmlFor="ex">전용면적 (분양 공고·등기부의 ㎡)</label>
-            <div className="input-row">
-              <input id="ex" inputMode="decimal" value={exclusive} onChange={(e) => setExclusive(e.target.value.replace(/[^\d.]/g, ''))} placeholder="84" />
-              <span>㎡</span>
-            </div>
+            {tf('전용면적 (분양 공고·등기부의 ㎡)', exclusive, (v) => setExclusive(v.replace(/[^\d.]/g, '')), '㎡', '84')}
             <div className="chips">
               {COMMON_UNITS.map((u) => (
-                <button key={u} type="button" className={parse(exclusive) === u ? 'on' : ''} onClick={() => setExclusive(String(u))}>
-                  {u}
-                </button>
+                <Button key={u} size="small" variant={parse(exclusive) === u ? 'fill' : 'weak'} color={parse(exclusive) === u ? 'primary' : 'dark'} onClick={() => setExclusive(String(u))}>
+                  {`${u}㎡`}
+                </Button>
               ))}
             </div>
-            <label htmlFor="ratio">
-              전용률 <b>{ratio}%</b> <small>(아파트는 보통 70~80%)</small>
-            </label>
-            <input id="ratio" type="range" min={60} max={90} value={ratio} onChange={(e) => setRatio(Number(e.target.value))} />
+            <div className="setrow">
+              <span>전용률</span>
+              <b className="ratio">{ratio}%</b>
+            </div>
+            <Slider min={60} max={90} value={ratio} onValueChange={setRatio} aria-label="전용률" label={{ min: '60%', mid: '아파트 보통 70~80%', max: '90%' }} />
           </section>
           {ex > 0 && (
-            <section className="result">
-              <small>흔히 부르는 크기</small>
-              <strong>{typeName(sqmToPyeong(supply))}</strong>
-              <table>
-                <tbody>
-                  <tr>
-                    <th>전용면적</th>
-                    <td>
-                      {fmt(ex)}㎡ · {fmt(sqmToPyeong(ex))}평
-                    </td>
-                  </tr>
-                  <tr>
-                    <th>공급면적(약)</th>
-                    <td>
-                      {fmt(supply)}㎡ · {fmt(sqmToPyeong(supply))}평
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-              <p className="hint">공급면적 = 전용 + 계단·복도 같은 주거공용. 단지마다 전용률이 달라 정확한 값은 분양 공고를 확인하세요.</p>
-            </section>
+            <>
+              <section className="result" aria-live="polite">
+                <Paragraph.Text typography="t6" color="var(--sub2)">
+                  흔히 부르는 크기
+                </Paragraph.Text>
+                <strong className="big-num">{typeName(sqmToPyeong(supply))}</strong>
+              </section>
+              <section className="card">
+                <table className="kv">
+                  <tbody>
+                    <tr>
+                      <th>전용면적</th>
+                      <td>{`${fmt(ex)}㎡ · ${fmt(sqmToPyeong(ex))}평`}</td>
+                    </tr>
+                    <tr>
+                      <th>공급면적 (약)</th>
+                      <td>{`${fmt(supply)}㎡ · ${fmt(sqmToPyeong(supply))}평`}</td>
+                    </tr>
+                  </tbody>
+                </table>
+                <Paragraph.Text typography="t7" color="var(--sub)">
+                  공급면적 = 전용 + 계단·복도 같은 주거공용. 단지마다 전용률이 달라 정확한 값은 분양 공고를 확인하세요.
+                </Paragraph.Text>
+              </section>
+            </>
           )}
         </>
       )}
@@ -129,41 +127,30 @@ export default function App() {
       {tab === 'room' && (
         <>
           <section className="card">
-            <div className="two">
-              <div>
-                <label htmlFor="w">가로</label>
-                <div className="input-row">
-                  <input id="w" inputMode="decimal" value={w} onChange={(e) => setW(e.target.value.replace(/[^\d.]/g, ''))} placeholder="3" />
-                  <span>m</span>
-                </div>
-              </div>
-              <div>
-                <label htmlFor="d">세로</label>
-                <div className="input-row">
-                  <input id="d" inputMode="decimal" value={d} onChange={(e) => setD(e.target.value.replace(/[^\d.]/g, ''))} placeholder="3.5" />
-                  <span>m</span>
-                </div>
-              </div>
-            </div>
-            <p className="hint">줄자로 잰 cm는 100으로 나눠 m로 넣어요. 예: 350cm → 3.5</p>
+            {tf('가로', w, (v) => setW(v.replace(/[^\d.]/g, '')), 'm', '3')}
+            {tf('세로', d, (v) => setD(v.replace(/[^\d.]/g, '')), 'm', '3.5', '줄자로 잰 cm는 100으로 나눠 m로 넣어요. 예: 350cm → 3.5')}
           </section>
           {room.sqm > 0 && (
-            <section className="result">
-              <small>방 넓이</small>
-              <strong>{fmt(room.pyeong)}평</strong>
-              <p>{fmt(room.sqm, 2)}㎡</p>
+            <section className="result" aria-live="polite">
+              <Paragraph.Text typography="t6" color="var(--sub2)">
+                방 넓이
+              </Paragraph.Text>
+              <strong className="big-num">{fmt(room.pyeong)}평</strong>
+              <Paragraph.Text typography="t6" color="var(--sub)">{`${fmt(room.sqm, 2)}㎡`}</Paragraph.Text>
             </section>
           )}
         </>
       )}
 
-      <button className="ghost" type="button" onClick={share}>
-        결과 공유하기
-      </button>
+      <div className="actions">
+        <Button display="block" variant="weak" onClick={share}>
+          결과 공유하기
+        </Button>
+      </div>
       <p className="note" role="status">
         {status}
       </p>
-      <footer className="foot">계산 참고용이에요. 계약·세금 신고에는 등기부·분양 공고의 공식 면적을 쓰세요.{!inToss() && ' 지금은 토스 밖 미리보기 화면이에요.'}</footer>
-    </main>
+      <p className="foot">계산 참고용이에요. 계약·세금 신고에는 등기부·분양 공고의 공식 면적을 쓰세요.{!inToss() && ' 지금은 토스 밖 미리보기 화면이에요.'}</p>
+    </div>
   );
 }

@@ -1,37 +1,7 @@
-:root { --bg: #eef6f3; --ink: #1c2b26; --soft: #5f736b; --main: #1f9d7a; --main-soft: #dff3ec; --line: #d6e6df; color-scheme: light; }
-* { box-sizing: border-box; min-width: 0; }
-html, body { margin: 0; }
-body { background: var(--bg); color: var(--ink); font: 16px/1.5 system-ui, -apple-system, 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif; }
-.app { max-width: 480px; margin: 0 auto; padding: 20px 16px calc(32px + env(safe-area-inset-bottom)); display: grid; gap: 12px; }
-.top h1 { font-size: 28px; margin: 0 0 2px; letter-spacing: -0.02em; }
-.top p { margin: 0; color: var(--soft); }
-.tabs { display: grid; grid-template-columns: repeat(3, 1fr); background: #dceae4; border-radius: 14px; padding: 4px; gap: 4px; }
-.tabs button { min-height: 44px; border: 0; border-radius: 10px; background: transparent; font: 700 15px system-ui, sans-serif; color: var(--soft); cursor: pointer; }
-.tabs button.on { background: #fff; color: var(--ink); box-shadow: 0 1px 2px #0001; }
-.card { background: #fff; border-radius: 20px; padding: 16px; display: grid; gap: 8px; }
-label { font-weight: 700; font-size: 14px; }
-label small { color: var(--soft); font-weight: 500; }
-label b { color: var(--main); }
-.input-row { display: flex; align-items: center; gap: 8px; border: 1.5px solid var(--line); border-radius: 14px; padding: 0 14px; background: #f8fcfa; }
-.input-row:focus-within { border-color: var(--main); }
-.input-row input { flex: 1; border: 0; background: transparent; font: 700 24px system-ui, sans-serif; color: var(--ink); min-height: 56px; text-align: right; outline: none; }
-.input-row span { color: var(--soft); font-weight: 700; }
-.swap { text-align: center; margin: 0; font-size: 22px; color: var(--main); }
-.hint { margin: 0; font-size: 13px; color: var(--soft); }
-.chips { display: flex; flex-wrap: wrap; gap: 6px; }
-.chips button { flex: 1 0 auto; min-height: 40px; padding: 0 10px; border-radius: 999px; border: 1.5px solid var(--line); background: #fff; font: 700 14px system-ui, sans-serif; color: var(--ink); cursor: pointer; }
-.chips button.on { background: var(--main); border-color: var(--main); color: #fff; }
-input[type='range'] { width: 100%; accent-color: var(--main); min-height: 32px; }
-.two { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-.two > div { display: grid; gap: 6px; }
-.result { background: var(--main-soft); border: 2px solid var(--main); border-radius: 22px; padding: 18px; display: grid; justify-items: center; text-align: center; gap: 4px; }
-.result small { color: var(--soft); font-weight: 600; }
-.result strong { font-size: 40px; line-height: 1.1; color: #12715a; }
-.result p { margin: 0; }
-table { width: 100%; border-collapse: collapse; margin: 6px 0; }
-th { text-align: left; font-weight: 500; color: var(--soft); padding: 6px 0; }
-td { text-align: right; font-weight: 700; }
-.ghost { min-height: 52px; border-radius: 14px; font: 700 17px system-ui, sans-serif; cursor: pointer; background: #fff; color: var(--ink); border: 1.5px solid var(--line); }
-button:focus-visible, input:focus-visible { outline: 3px solid #1f9d7a66; outline-offset: 2px; }
-.note { margin: 0; font-size: 13px; color: var(--soft); text-align: center; min-height: 1em; }
-.foot { font-size: 12px; color: var(--soft); text-align: center; }
+@import '../../../_shared/tds-base.css';
+.head { padding: 20px 20px 8px; }
+.head h1 { margin: 0 0 2px; font-size: 22px; font-weight: 700; }
+.tf { margin: 0 -18px; }
+.swap { margin: -4px 0; text-align: center; color: var(--sub); font-size: 20px; }
+.setrow { display: flex; justify-content: space-between; align-items: center; font-weight: 600; }
+.ratio { color: var(--blue); font-size: 18px; }
