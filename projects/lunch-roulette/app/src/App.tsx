@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
+import { BottomSheet, Button, ListHeader, ListRow, Paragraph, SegmentedControl, TextField } from '@toss/tds-mobile';
 import { BASE_MENUS, CATEGORY_COLOR, CATEGORY_NAME, addCustom, addEaten, candidates, dayOf, pick, wheelSlots, type Category, type Eaten, type Menu } from './lib/menu';
-import { appLink, inToss, loadItem, saveItem, shareText } from './lib/toss';
+import { appLink, loadItem, saveItem, shareText } from './lib/toss';
 
 const STORE_KEY = 'lunch.v1';
 const CATS = Object.keys(CATEGORY_NAME) as Category[];
@@ -133,77 +134,24 @@ export default function App() {
   };
 
   return (
-    <main className="app">
-      <header className="top">
+    <div className="page">
+      <div className="head">
         <div>
           <h1>오늘 점심 룰렛</h1>
-          <p>
-            고민은 룰렛에게! 후보 {pool.length}개{data.avoidDays ? ` · 최근 ${data.avoidDays}일 먹은 메뉴 빼고` : ''}
-          </p>
+          <Paragraph.Text typography="t6" color="var(--sub)">
+            {`후보 ${pool.length}개${data.avoidDays ? ` · 최근 ${data.avoidDays}일 먹은 메뉴 빼고` : ''}`}
+          </Paragraph.Text>
         </div>
-        <button className="icon" type="button" aria-label="메뉴 설정" aria-expanded={showSettings} onClick={() => setShowSettings((s) => !s)}>
-          ⚙️
-        </button>
-      </header>
-
-      {showSettings && (
-        <section className="card">
-          <p className="label">먹고 싶은 종류 (끄면 빠져요)</p>
-          <div className="chips wrap">
-            {CATS.map((c) => {
-              const on = !data.off.includes(c);
-              return (
-                <button key={c} type="button" aria-pressed={on} className={on ? 'on' : ''} style={on ? { background: CATEGORY_COLOR[c], borderColor: CATEGORY_COLOR[c] } : undefined} onClick={() => setData((d) => ({ ...d, off: on ? [...d.off, c] : d.off.filter((x) => x !== c) }))}>
-                  {CATEGORY_NAME[c]}
-                </button>
-              );
-            })}
-          </div>
-          <p className="label">최근 먹은 메뉴 빼기</p>
-          <div className="chips">
-            {[0, 3, 7].map((n) => (
-              <button key={n} type="button" className={data.avoidDays === n ? 'on dark' : ''} onClick={() => setData((d) => ({ ...d, avoidDays: n }))}>
-                {n === 0 ? '안 빼기' : `${n}일`}
-              </button>
-            ))}
-          </div>
-          <p className="label">나만의 메뉴 추가</p>
-          <div className="add">
-            <input value={newName} maxLength={12} onChange={(e) => setNewName(e.target.value)} placeholder="예: 회사 앞 백반" aria-label="메뉴 이름" />
-            <select value={newCat} onChange={(e) => setNewCat(e.target.value as Category)} aria-label="메뉴 종류">
-              {CATS.map((c) => (
-                <option key={c} value={c}>
-                  {CATEGORY_NAME[c]}
-                </option>
-              ))}
-            </select>
-            <button
-              type="button"
-              onClick={() => {
-                setData((d) => ({ ...d, custom: addCustom([...BASE_MENUS, ...d.custom], newName, newCat).filter((x) => x.custom) }));
-                setNewName('');
-              }}
-            >
-              추가
-            </button>
-          </div>
-          {data.custom.length > 0 && (
-            <div className="chips wrap">
-              {data.custom.map((x) => (
-                <button key={x.name} type="button" className="mine" aria-label={`${x.name} 지우기`} onClick={() => setData((d) => ({ ...d, custom: d.custom.filter((y) => y.name !== x.name) }))}>
-                  ⭐ {x.name} ×
-                </button>
-              ))}
-            </div>
-          )}
-        </section>
-      )}
+        <Button size="small" variant="weak" color="dark" onClick={() => setShowSettings(true)}>
+          메뉴 설정
+        </Button>
+      </div>
 
       <section className="stage">
         <Wheel slots={slots} rotation={rotation} />
-        <button className="spin" type="button" onClick={spin} disabled={spinning}>
-          {spinning ? '두구두구…' : winner ? '다시 돌리기' : '룰렛 돌리기 🎯'}
-        </button>
+        <Button display="block" size="xlarge" onClick={spin} disabled={spinning}>
+          {spinning ? '두구두구…' : winner ? '다시 돌리기' : '룰렛 돌리기'}
+        </Button>
       </section>
 
       {winner && !spinning && (
@@ -211,16 +159,20 @@ export default function App() {
           <span className="emoji" aria-hidden>
             {winner.emoji}
           </span>
-          <p>오늘 점심은</p>
-          <h2>{winner.name}</h2>
-          <small>{CATEGORY_NAME[winner.cat]}</small>
-          <div className="row">
-            <button className="primary" type="button" onClick={eat}>
-              이걸로 먹을래요
-            </button>
-            <button className="ghost" type="button" onClick={share}>
-              같이 먹자고 공유
-            </button>
+          <Paragraph.Text typography="t6" color="var(--sub)">
+            오늘 점심은
+          </Paragraph.Text>
+          <strong className="win">{winner.name}</strong>
+          <Paragraph.Text typography="t7" color="var(--sub)">
+            {CATEGORY_NAME[winner.cat]}
+          </Paragraph.Text>
+          <div className="row2 full">
+            <Button display="block" onClick={eat}>
+              이걸로 먹기
+            </Button>
+            <Button display="block" variant="weak" onClick={share}>
+              같이 먹자 공유
+            </Button>
           </div>
         </section>
       )}
@@ -230,19 +182,68 @@ export default function App() {
       </p>
 
       {data.eaten.length > 0 && (
-        <section className="card">
-          <h2>최근 먹은 메뉴</h2>
-          <ul className="history">
+        <>
+          <ListHeader title={<ListHeader.TitleParagraph typography="t5" fontWeight="bold">최근 먹은 메뉴</ListHeader.TitleParagraph>} />
+          <ul className="list">
             {data.eaten.slice(0, 7).map((e) => (
-              <li key={e.day + e.name}>
-                <span>{e.day.slice(5).replace('-', '/')}</span> {e.name}
-              </li>
+              <ListRow key={e.day + e.name} contents={<ListRow.Texts type="1RowTypeA" top={e.name} />} right={<Paragraph.Text typography="t6" color="var(--sub)">{e.day.slice(5).replace('-', '/')}</Paragraph.Text>} />
             ))}
           </ul>
-        </section>
+        </>
       )}
 
-      <footer className="foot">메뉴 이름만 골라 드려요. 기록은 이 기기에만 저장돼요.{!inToss() && ' 지금은 토스 밖 미리보기 화면이에요.'}</footer>
-    </main>
+      <p className="foot">메뉴 이름만 골라 드려요. 기록은 이 기기에만 저장돼요.</p>
+
+      <BottomSheet open={showSettings} onClose={() => setShowSettings(false)} header={<BottomSheet.Header>메뉴 설정</BottomSheet.Header>} cta={<BottomSheet.CTA onClick={() => setShowSettings(false)}>완료</BottomSheet.CTA>}>
+        <div className="sheet">
+          <p className="label">먹고 싶은 종류 (끄면 빠져요)</p>
+          <div className="chips">
+            {CATS.map((c) => {
+              const on = !data.off.includes(c);
+              return (
+                <Button key={c} size="small" variant={on ? 'fill' : 'weak'} color={on ? 'primary' : 'dark'} onClick={() => setData((d) => ({ ...d, off: on ? [...d.off, c] : d.off.filter((x) => x !== c) }))}>
+                  {CATEGORY_NAME[c]}
+                </Button>
+              );
+            })}
+          </div>
+          <p className="label">최근 먹은 메뉴 빼기</p>
+          <SegmentedControl value={String(data.avoidDays)} onChange={(v) => setData((d) => ({ ...d, avoidDays: Number(v) }))}>
+            <SegmentedControl.Item value="0">안 빼기</SegmentedControl.Item>
+            <SegmentedControl.Item value="3">3일</SegmentedControl.Item>
+            <SegmentedControl.Item value="7">7일</SegmentedControl.Item>
+          </SegmentedControl>
+          <p className="label">나만의 메뉴 추가</p>
+          <TextField variant="box" placeholder="예: 회사 앞 백반" value={newName} maxLength={12} onChange={(e) => setNewName(e.target.value)} />
+          <div className="chips">
+            {CATS.map((c) => (
+              <Button key={c} size="small" variant={newCat === c ? 'fill' : 'weak'} color={newCat === c ? 'primary' : 'dark'} onClick={() => setNewCat(c)}>
+                {CATEGORY_NAME[c]}
+              </Button>
+            ))}
+          </div>
+          <Button
+            display="block"
+            variant="weak"
+            disabled={!newName.trim()}
+            onClick={() => {
+              setData((d) => ({ ...d, custom: addCustom([...BASE_MENUS, ...d.custom], newName, newCat).filter((x) => x.custom) }));
+              setNewName('');
+            }}
+          >
+            메뉴 추가
+          </Button>
+          {data.custom.length > 0 && (
+            <div className="chips">
+              {data.custom.map((x) => (
+                <Button key={x.name} size="small" variant="weak" color="dark" aria-label={`${x.name} 지우기`} onClick={() => setData((d) => ({ ...d, custom: d.custom.filter((y) => y.name !== x.name) }))}>
+                  {`${x.name} ×`}
+                </Button>
+              ))}
+            </div>
+          )}
+        </div>
+      </BottomSheet>
+    </div>
   );
 }
