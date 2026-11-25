@@ -23,6 +23,10 @@
 | AI 드라마 「조선 노비, AI 비서를 줍다」 | 1화 완성(Higgsfield), 2화 진행 중 | ai-drama 폴더, 이 저장소 대화 기록 |
 | 브라우저 자동화 | 유튜브 Studio 등 크롬 작업 | Playwriter 스킬 |
 
+## 할 일 (대기 중)
+
+- **cc_profile 저장소를 `main` 같은 정식 브랜치로 merge하게 되면**, `install.ps1`의 `$repoRawBase`와 `README.md`의 설치 명령어에 박혀 있는 브랜치명(`claude/powershell-install-script-18mf9g`)을 새 기본 브랜치명으로 바꿔야 한다. 안 바꾸면 `irm | iex` 설치 링크가 다시 404 남.
+
 ## 지켜야 할 규칙
 
 - **Pixeling** 관련 파일·설정은 절대 건드리지 않는다.
