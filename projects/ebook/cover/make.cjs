@@ -19,7 +19,7 @@ h1{font-size:72px;font-weight:900;line-height:1.16;margin-top:30px;letter-spacin
 .red{color:#ff4d4d}</style>
 <div class="w"><span class="tag">비개발자 실전 기록</span>
 <h1>AI와 둘이서<br><span class="big">하루 반 만에</span><br>토스 미니앱 출시하기</h1>
-<p class="sub">정책 판정 · TDS 검수 · 등록 막힘 · 홍보까지 전부</p>
+<p class="sub">정책 판정 · 토스 디자인 · 등록 막힘 · 홍보까지 전부</p>
 <div style="margin-top:44px;display:flex;gap:14px">${tiles(12, 70)}</div>
 <div class="nums"><div class="n"><b>14개</b><span>앱 등록</span></div><div class="n"><b>2개</b><span>출시</span></div><div class="n"><b class="red">9번</b><span>이름 때문에 등록 막힘</span></div><div class="n"><b>0원</b><span>개발자 고용비</span></div></div></div>`;
 
