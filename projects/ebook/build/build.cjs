@@ -9,7 +9,8 @@ const { chromium } = require('playwright');
 
 const ROOT = path.join(__dirname, '..');
 const FONT = `file://${NM}/pretendard/dist/web/static/woff2`;
-const files = fs.readdirSync(path.join(ROOT, 'manuscript')).filter((f) => f.endsWith('.md')).sort();
+const ONLY = process.env.ONLY; // 예: ONLY=03 → 무료 맛보기
+const files = fs.readdirSync(path.join(ROOT, 'manuscript')).filter((f) => f.endsWith('.md') && (!ONLY || f.startsWith(ONLY))).sort();
 
 const fig = (id) => {
   const p = path.join(ROOT, 'figures', `fig_${id}.png`);
@@ -100,7 +101,7 @@ const html = `<!doctype html><html lang="ko"><head><meta charset="utf-8"><style>
 <section class="front"><h1>AI와 둘이서<br><span>하루 반 만에</span><br>토스 미니앱 출시하기</h1>
 <p>비개발자가 31시간 만에 앱 14개를 등록하고 2개를 출시한 실전 기록.<br>정책 판정 · 토스 디자인(TDS) · 등록 막힘 · 검수 · 출시 후 홍보까지.</p>
 <p style="margin-top:20mm;font-size:10pt;color:#888">2026년 11월 기준 · 토스 정책이나 화면이 바뀌면 개정판을 무료로 드립니다.</p></section>
-<section class="toc"><h2>차례</h2><ol>${toc}</ol></section>
+${ONLY ? `<section class="toc"><h2>무료 맛보기</h2><p>이 PDF는 전자책의 3장 전문입니다. 전체 목차: 프롤로그 · 1장 왜 토스 미니앱인가 · 2장 시작 준비 · <b>3장 무엇을 만들까</b> · 4장 AI에게 일 맡기기 · 5장 TDS로 만들기 · 6장 콘솔 등록 막힘 전부 · 7장 검수와 출시 · 8장 여러 앱 한 번에 · 9장 출시 후 홍보 · 10장 결과와 회고 · 부록 7종</p><p>전체 책 보기: 리틀리·크몽에서 「AI와 둘이서 하루 반 만에 토스 미니앱 출시하기」</p></section>` : `<section class="toc"><h2>차례</h2><ol>${toc}</ol></section>`}
 ${chapters.map((c) => `<section class="chapter">${c.html}</section>`).join('\n')}
 <section class="colophon"><h3>AI와 둘이서 하루 반 만에 토스 미니앱 출시하기</h3>
 <p>초판 발행 2026년 12월<br>이 책의 내용은 2026년 11월 기준입니다. 앱인토스의 정책·화면은 바뀔 수 있으며, 최신 정보는 앱인토스 공식 문서를 확인해 주세요.<br>
