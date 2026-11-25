@@ -21,7 +21,7 @@ h1{font-size:72px;font-weight:900;line-height:1.16;margin-top:30px;letter-spacin
 <h1>AI와 둘이서<br><span class="big">하루 반 만에</span><br>토스 미니앱 출시하기</h1>
 <p class="sub">정책 판정 · TDS 검수 · 등록 막힘 · 홍보까지 전부</p>
 <div style="margin-top:44px;display:flex;gap:14px">${tiles(12, 70)}</div>
-<div class="nums"><div class="n"><b>14개</b><span>앱 등록</span></div><div class="n"><b>2개</b><span>출시</span></div><div class="n"><b class="red">9번</b><span>이름 중복으로 막힘</span></div><div class="n"><b>0원</b><span>개발자 고용비</span></div></div></div>`;
+<div class="nums"><div class="n"><b>14개</b><span>앱 등록</span></div><div class="n"><b>2개</b><span>출시</span></div><div class="n"><b class="red">9번</b><span>이름 때문에 등록 막힘</span></div><div class="n"><b>0원</b><span>개발자 고용비</span></div></div></div>`;
 
 const B = `<style>${font}
 .w{width:1200px;height:900px;background:linear-gradient(160deg,#e8f3ff 0%,#f9fbff 60%);color:#191f28;display:grid;grid-template-columns:1fr 470px;align-items:center;padding:0 0 0 80px;overflow:hidden}
@@ -52,7 +52,7 @@ h1 u{text-decoration:none;background:linear-gradient(transparent 62%,#ffd400 62%
 <div class="w"><div class="top"><span class="tag">막힌 곳 전부 공개</span><span class="stamp">반려 피하기</span></div>
 <h1>다 만들고 접은 앱 <u>1개</u>,<br>하룻밤에 다시 만든 앱 <u>11개</u></h1>
 <div class="log">
-<div><span class="k">✕ 증상</span><span>"이미 사용 중인 이름" — 9번</span></div>
+<div><span class="k">✕ 증상</span><span>이름 때문에 등록 막힘 — 9번</span></div>
 <div><span class="k">✕ 원인</span><span>검수 기준 TDS를 몰랐다</span></div>
 <div><span class="ok">✓ 고친 값</span><span>정책 사전 검사 → TDS → 한 번에 출시</span></div></div>
 <div style="margin-top:40px;display:flex;gap:16px">${tiles(10, 82)}</div>
