@@ -30,10 +30,19 @@ if (Test-Path $PROFILE) {
 
 # Download and write the new profile content.
 try {
-    $content = (Invoke-WebRequest -Uri $profileUrl -UseBasicParsing).Content
+    $response = Invoke-WebRequest -Uri $profileUrl -UseBasicParsing
 } catch {
     Write-Error "Failed to download profile from $profileUrl`: $_"
     exit 1
+}
+
+# Invoke-WebRequest returns .Content as a byte[] instead of a string when
+# the server doesn't declare a text Content-Type (e.g. application/octet-stream),
+# so decode explicitly rather than assuming it's already text.
+if ($response.Content -is [byte[]]) {
+    $content = [System.Text.Encoding]::UTF8.GetString($response.Content)
+} else {
+    $content = $response.Content
 }
 
 Set-Content -Path $PROFILE -Value $content -Encoding UTF8
