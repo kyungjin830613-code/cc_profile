@@ -71,6 +71,7 @@
 | 평수 계산기 | `projects/pyeong` | pyeongsu-calc-kr | 콘솔 등록 진행 중 |
 | 집중 타이머 | `projects/focus-timer` | jipjung-timer-kr | 코드·로고·PRD 완성, 콘솔 등록 대기 |
 | 하루 영단어 | `projects/daily-words` | haru-eng-word | 코드·로고·PRD 완성(TDS), 콘솔 등록 대기 |
+| 냉장고 유통기한 | `projects/fridge-expiry` | naengjanggo-yutong-gihan | 코드·로고·PRD 완성(TDS), 정책 사전 검사 중 |
 | 찰떡 떡집 키우기 | `projects/chaltteok-ricecake` | chaltteok-ricecake | 사업자 업종 추가(홈택스) → 게임제작업 등록 → 등급분류 후 등록 |
 
 ## 6. 공통 규칙
