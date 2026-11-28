@@ -9,7 +9,7 @@
 
 - 사용자는 밖에서 휴대폰으로 이 클라우드 채팅에 지시한다. 리야는 지시를 받아 **사용자 PC(Windows)의 Claude Code에 작업 채팅을 만들어 넘기고**, 결과를 확인해 짧게 보고한다.
 - PC 연결: `claude remote-control` 브리지 환경 `env_01Sd8n31RJTfdy3pQHWbAupt` (폴더 `C:\Users\kyung\Documents\ai-drama`). PC 로그인 시 자동 실행되도록 등록되어 있다. 끊기면 PowerShell에서 `cd $HOME\Documents\ai-drama; claude remote-control`.
-- **맥미니(2026-11-28 연결)**: 브리지 환경 `env_01FEEANyqyp5EzVfDPVGGudi` (폴더 `~/work`, M2 16GB, macOS 27). 로그인 항목 `~/work/riya-start.command`(caffeinate + `claude remote-control`)로 자동 실행. 반짝이 전용 작업 PC로 쓴다(윈도우는 지숙이·Pixeling). brew·node·ffmpeg 미설치. 계획은 `projects/MACMINI_PLAN.md`.
+- **맥미니(2026-11-28 연결)**: 브리지 환경 `env_01FEEANyqyp5EzVfDPVGGudi` (폴더 `~/work`, M2 16GB, macOS 27). 로그인 항목 `~/work/riya-start.command`(caffeinate + `claude remote-control`)로 자동 실행. 리야(Claude: 구글 크롬, `~/work`)와 지숙이(Codex 앱 "ChatGPT", 크롬 베타, `~/jisuk`, 사용자가 휴대폰 ChatGPT 앱으로 지시)가 함께 쓰며 서로의 폴더·브라우저는 건드리지 않는다. 주고받기 `~/shared/넘김/`. 윈도우 노트북은 사용자가 들고 다님(Pixeling). brew·node·ffmpeg 미설치. 계획은 `projects/MACMINI_PLAN.md`.
 - PC 작업은 `create_session`(위 환경)으로 새 채팅을 만들거나 `send_message`로 기존 채팅에 보낸다. 지시문은 그 자체로 완결되게 쓴다(읽을 파일, 할 일, 금지 사항, 보고 형식).
 - PC 쪽 작업 지침의 원본: `C:\Users\kyung\.claude\CLAUDE.md`(반짝이 작업본부 섹션), `C:\Users\kyung\Downloads\쇼츠 생성기\반짝이_운영\`(반짝이_업무지침.md, 할일목록.md, 일일계획/, 모바일_원격운영_안내.md). 진행 상황은 PC 채팅의 기록(list_events)과 할일목록으로 확인한다.
 - **사용자 상시 승인(2026-11-24)**: 사용자가 리야 채팅에서 지시한 일은 리야가 PC에서 끝까지 실행한다. 앱 만들기·등록·검수 제출·출시·영상 업로드/공개도 포함("모든 걸 승인한다, 출시하는 거 앱 만드는 거 모두 다 허용"). 리야는 PC에 보낼 때 사용자 말을 **원문 그대로 인용**하고, 결과를 사용자에게 보고한다. 사용자가 PC 채팅을 오가지 않게 한다.
