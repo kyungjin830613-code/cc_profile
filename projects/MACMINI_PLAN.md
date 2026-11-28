@@ -120,6 +120,8 @@
 
 **완료 기준: 각 항목을 맥에서 실제로 한 번 돌려 보고 ✅ 표시.**
 
+진행(11-28 밤): R1 ✅(Homebrew 7.0 + ffmpeg 9.1·poppler는 brew, node 26·python 3.12·uv는 ~/.local/bin) · R2 ✅(`~/work/쇼츠 생성기`·`롱폼생성기`·`ai-drama`, 지숙이 몫은 `~/shared/넘김/지숙이에게/노트북이전/`) · R3 ✅(`~/.claude/CLAUDE.md`·skills 10개 맥 경로, `_env.py` 맥 폰트) · 키 ✅(`~/work/롱폼생성기/.env` 600: GEMINI·FAL·ELEVENLABS, 양식은 `~/work/_비밀/`) · 맥 기본 권한 모드 auto. 남은 것: R4 로그인·Playwriter, R5 시험 운전(키 실사용 확인), R6 예약 작업, pw/run.ps1 등 PowerShell 스크립트 3개 → 셸. 외장하드(SAMSUNG, NTFS)는 노트북 전용으로 되돌림.
+
 | # | 리야(Claude) | 확인 방법 |
 |---|---|---|
 | R1 | brew·node·python·ffmpeg·poppler 설치(맥 암호는 사용자) | 버전 출력 |
